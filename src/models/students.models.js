@@ -23,8 +23,8 @@ const studentSchema = new Schema({
    },
    coursesApplied: [
       {
-         Type: String,
-         requred: true,
+         Type: Schema.Types.ObjectId,
+         ref: "Course",
       }
    ]
 },
