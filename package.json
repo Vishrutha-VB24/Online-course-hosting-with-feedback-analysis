@@ -1,6 +1,8 @@
 {
   "type": "module",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "mongoose": "^8.4.0"
   },
@@ -10,5 +12,4 @@
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
   }
-  
 }
