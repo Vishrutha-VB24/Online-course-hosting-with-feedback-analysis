@@ -1,5 +1,6 @@
 import { Router} from 'express'
 import { handleList } from '../controllers/instructor.controller.js'
+import { handleList } from '../controllers/videos.controller.js'
 const router = Router()
 
 
