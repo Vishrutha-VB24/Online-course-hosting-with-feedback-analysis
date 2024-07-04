@@ -1,8 +1,8 @@
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
-const express = require('express')
 import videosRouter from './routes/videos.routes.js'
+import studentRouter from './routes/student.routes.js'
 
 const app = express()
 
@@ -18,6 +18,8 @@ app.use(cors({
  
  app.use('/api/videos',videosRouter)
 
+
+ //rou
 
 
 
