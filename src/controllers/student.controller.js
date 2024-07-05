@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js"
 import {ApiError} from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
-import { Student } from "../models/students.models.js"
+import { Student } from "../models/student.models.js"
 import jwt from "jsonwebtoken"
 
 const generateAccessAndRefreshTokens = async(userId) =>
