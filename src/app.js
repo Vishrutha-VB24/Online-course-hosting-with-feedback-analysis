@@ -17,6 +17,8 @@ app.use(cors({
  app.use(express.static("public"))
  app.use(cookieParser())
  
+
+
  app.use('/api/videos',videosRouter)
  app.use('/api/instructor',instructorRouter)
 
