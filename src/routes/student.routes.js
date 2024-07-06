@@ -1,6 +1,6 @@
 import {Router} from 'express'
 import { loginStudent, logoutStudent, registerStudent, refreshAccessToken } from '../controllers/student.controller.js'
-// import {upload} from "../middlewares/multer.middlewares.js"
+import {upload} from "../middlewares/multer.middlewares.js"
 import { verifyJWT } from '../middlewares/studentauth.middleware.js'
 
 
@@ -10,6 +10,7 @@ router.route("/registerStudent").post(
     // upload.fields([
 
     // ]),
+    upload.none(),
     registerStudent
 )
 // router.route("/loginStudent").post(loginStudent)
