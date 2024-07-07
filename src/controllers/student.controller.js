@@ -3,7 +3,7 @@ import {ApiError} from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { Student } from "../models/student.models.js"
 import jwt from "jsonwebtoken"
-
+// import { upload } from "../middlewares/multer.middlewares.js"
 const generateAccessAndRefreshTokens = async(userId) =>
 {
      try {
@@ -28,8 +28,6 @@ const registerStudent = asyncHandler( async (req, res) => {
     console.log(req.body)
      
 
-//     console.log(req)
-    console.log("email:",email)
 
 
    if (
