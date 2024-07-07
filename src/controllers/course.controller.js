@@ -5,6 +5,7 @@ import { Register } from "../models/registration.models.js";
 import { Student } from "../models/student.models.js";
 import {Course} from "../models/courses.models.js"
 import { Instructor } from "../models/instructor.models.js";
+import { Video } from "../models/videos.models.js";
 
 const registerToCourse = asyncHandler(async(req, res) => {
     if (!req.student) {
@@ -72,4 +73,41 @@ const deleteCourse = asyncHandler(async(req, res) => {
     return res.status(200).json(new ApiResponse(200, null, "Course deleted successfully"));
 })
 
-const 
+const getCourseDetails = asyncHandler(async(req, res) => {
+    const { courseId } = req.params
+
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+        throw new ApiError(404, "Course not found");
+    }
+
+    const videos = await Video.find({ courseID: courseId })
+
+    const courseDetails = {
+        thumbnail: course.thumbnail,
+        name: course.name,
+        description: course.description,
+        videos:  videos.map(video => ({ url: video.videoFile, title: video.title }))
+    }
+
+    return res.status(200).json(new ApiResponse(200, courseDetails, "Course details fetched successfully"))
+})
+
+const getAllCourse = asyncHandler(async(req, res) => {
+    const courses = await Course.find();
+
+    if (courses.length === 0) {
+        throw new ApiError(404, "No courses found");
+    }
+
+    const courseInfo = await Promise.all(courses.map(async (course) => { 
+        return {
+        name: course.name,
+        description: course.description,
+        thumbnail: course.thumbnail,
+        }
+    }))
+
+    return res.status(200).json(new ApiResponse(200, courseInfo, "Course details fetched successfully"))
+})
