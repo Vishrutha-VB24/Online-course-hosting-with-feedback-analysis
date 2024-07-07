@@ -25,7 +25,9 @@ const generateAccessAndRefreshTokens = async(userId) =>
 
 const registerStudent = asyncHandler( async (req, res) => {
     const {fullName, email, userName, password, phone} = req.body
-//     console.log(req.body)
+    console.log(req.body)
+     
+
 //     console.log(req)
     console.log("email:",email)
 

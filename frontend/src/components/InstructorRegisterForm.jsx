@@ -8,7 +8,7 @@ function InstructorRegisterForm() {
                     <CardTitle className="text-xl">Instructor Registration</CardTitle>
                     <CardDescription></CardDescription>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 gap-x-8">
+                <CardContent className="grid grid-cols-2 gap-x-8 gap-y-3">
                     <div className="space-y-1">
                         <Label for="fullname">Fullname</Label>
                         <Input id="fullname" />
@@ -35,7 +35,7 @@ function InstructorRegisterForm() {
                     </div>
                     <div className="space-y-1 col-span-2">
                         <Label for="bio">Bio</Label>
-                        <Textarea id="bio"></Textarea>
+                        <Textarea id="bio" className="resize-none"></Textarea>
                     </div>
                 </CardContent>
                 <CardFooter>

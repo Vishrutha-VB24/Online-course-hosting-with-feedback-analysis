@@ -5,4 +5,4 @@ function handleList(req,res){
 
 
 
-export { handleList }
+export { handleList}

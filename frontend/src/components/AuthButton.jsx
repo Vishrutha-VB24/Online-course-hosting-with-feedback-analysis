@@ -1,13 +1,25 @@
 /* eslint-disable react/prop-types */
 import { useSelector } from "react-redux";
-import { Button } from ".";
+import { Avatar, AvatarImage, AvatarFallback, Button, DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from ".";
 import { useNavigate } from "react-router-dom";
 
 function AuthButton({className}) {
-    const logged_in = useSelector(state => state.auth.status)
+    const authStatus = useSelector(state => state.auth.status)
+    const userName = useSelector(state => state.auth.userData.username) 
     const navigate = useNavigate()    
-    return logged_in ?
-    <Button className={`${className}`} >Logout</Button> : 
+    return authStatus ?
+    <DropdownMenu>
+        <DropdownMenuTrigger>
+                <Avatar className="border hover:border-black duration-200">
+                    <AvatarImage src=""></AvatarImage>
+                    <AvatarFallback>{userName[0].toUpperCase()}</AvatarFallback>
+                </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className='w-32'>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Logout</DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu> : 
     <Button className={`${className}`} onClick={()=>navigate('/login')}>Login</Button> ;
     
 }

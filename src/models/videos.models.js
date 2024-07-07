@@ -33,7 +33,7 @@ const videoSchema = new Schema(
         courseID:{
             type:Schema.Types.ObjectId,
             ref:"Course"
-        }
+        },
     },
     {timestamps:true}
 )

@@ -12,6 +12,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import StudentRegisterForm from "./StudentRegisterForm";
 import InstructorRegisterForm from "./InstructorRegisterForm";
 import { Textarea } from "./ui/textarea";
+import StudentLoginForm from "./StudentLoginForm";
+import InstructorLoginForm from "./InstructorLoginForm";
+import AuthLayout from "./AuthLayout";
+import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
+import { DropdownMenu, DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuGroup,DropdownMenuItem,DropdownMenuLabel,DropdownMenuPortal,DropdownMenuRadioGroup,DropdownMenuRadioItem,DropdownMenuSeparator,DropdownMenuShortcut,DropdownMenuSub,DropdownMenuSubContent,DropdownMenuSubTrigger,DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Separator } from "./ui/separator";
 export {
     AspectRatio,
     AuthButton,
@@ -35,5 +41,27 @@ export {
     Label,
     StudentRegisterForm,
     InstructorRegisterForm,
-    Textarea
+    Textarea,
+    StudentLoginForm,
+    InstructorLoginForm,
+    AuthLayout,
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+    Separator
 }

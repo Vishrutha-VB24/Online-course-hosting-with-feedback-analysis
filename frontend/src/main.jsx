@@ -5,16 +5,16 @@ import { Route, RouterProvider, createBrowserRouter,  createRoutesFromElements }
 import {Home, Course, Login, Register, VideoPlayer} from './pages/index.js'
 import { Provider } from 'react-redux'
 import { store } from './store/store.js'
-import { InstructorRegisterForm, StudentRegisterForm } from './components/index.js'
+import { InstructorRegisterForm, StudentRegisterForm, AuthLayout } from './components/index.js'
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path='/' element={<App/>}>
-			<Route index element={<Home />} />
-			<Route path='course' element={<Course />} />
-			<Route path='course/video/:id' element={<VideoPlayer />} />
-			<Route path='login' element={<Login />} />
-			<Route path='register' element={<Register />}>
+			<Route index element={<AuthLayout isAuthRequired={null}><Home /></AuthLayout>} />
+			<Route path='course/:courseId' element={<AuthLayout isAuthRequired={null}><Course /></AuthLayout>} />
+			<Route path='course/:courseId/video/:Id' element={<AuthLayout isAuthRequired={true}><VideoPlayer /></AuthLayout>} />
+			<Route path='login' element={<AuthLayout isAuthRequired={false}><Login /></AuthLayout>} />
+			<Route path='register' element={<AuthLayout isAuthRequired={false}><Register/></AuthLayout>}>
 				<Route path='student' element={<StudentRegisterForm/>}></Route>
 				<Route path='instructor' element={<InstructorRegisterForm/>}></Route>
 			</Route> 

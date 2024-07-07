@@ -2,7 +2,7 @@ import { AuthButton, Input} from ".";
 import { useLocation, useNavigate } from "react-router-dom";
 function Header() {
     const loc = useLocation();
-    const titleOnly = loc.pathname !== '/login' && loc.pathname != '/register/student' && loc.pathname != '/register/instructor'
+    const titleOnly = !loc.pathname.startsWith("/login") && !loc.pathname.startsWith("/register") 
     const navigate = useNavigate()
 
     return (
@@ -19,7 +19,7 @@ function Header() {
                 </>
             }
             </header>
-            <hr className="fixed top-14 left-4 w-[calc(100vw-2rem)]  border-zinc-500"/>
+            <hr className="z-10 fixed top-14 left-4 w-[calc(100vw-2rem)]  border-zinc-500"/>
         </>
 
     );
