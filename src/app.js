@@ -3,6 +3,8 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 // import bodyParser from "body-parser"
 import videosRouter from './routes/videos.routes.js'
+import instructorRouter from './routes/instructor.routes.js'
+import studentRouter from './routes/student.routes.js'
 
 const app = express()
 
@@ -14,7 +16,12 @@ app.use(cors())
  app.use(cookieParser())
 //  app.use(bodyParser())
  
+
+
  app.use('/api/videos',videosRouter)
+ app.use('/api/instructor',instructorRouter)
+
+
 
 
  
