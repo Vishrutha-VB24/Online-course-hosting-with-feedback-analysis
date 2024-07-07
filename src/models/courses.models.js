@@ -4,11 +4,8 @@ const courseSchema = new Schema({
        type:String,
        required:true, 
     },
-    id:{
-        type:String,
-        required:true, 
-     },
-    instructor:{
+    
+    instructorID:{
         type: Schema.Types.ObjectId,
         ref:"Instructor",
         required:true,
@@ -21,7 +18,10 @@ const courseSchema = new Schema({
         type:String,
         required:true
     },
-        
+    description:{
+        type:String,
+        required:true
+    },  
 
     
 },
