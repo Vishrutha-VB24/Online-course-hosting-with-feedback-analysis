@@ -1,10 +1,22 @@
-import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Label, Input, CardFooter, Button } from ".";
+import { dotStream } from 'ldrs';
+import { useForm } from "react-hook-form";
+import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from ".";
+import { useState } from "react";
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function InstructorLoginForm() {
+    dotStream.register();
+    const dispatch = useDispatch()
     const navigate = useNavigate()
+    const {register, handleSubmit, formState : {errors}} = useForm();
+    const [loading, setLoading] = useState(false)
+    const login = () => {
+        setLoading(true)
+    }
     return (
-        <form action="">
+        <form onSubmit={handleSubmit(login)}>
             <Card>
                 <CardHeader>
                     <CardTitle>Login</CardTitle>
@@ -12,16 +24,31 @@ function InstructorLoginForm() {
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-1">
-                        <Label for='s-username'>Username</Label>
-                        <Input id="s-username"/>
+                        <Label htmlFor='username'>
+                            {errors.username ?
+                                <span className="text-red-500">{errors.username.message}</span>
+                            :
+                                "Username"
+                            }
+                        </Label>
+                        <Input id="username" {...register('username', {required: "Username is Required"})} className={`${errors.password && "bg-red-50"}`}/>
                     </div>
                     <div className="space-y-1">
-                        <Label for='s-password'>Password</Label>
-                        <Input id='s-password'/>
+                        <Label htmlFor='password'>
+                            {errors.password ?
+                                <span className="text-red-500">{errors.password.message}</span>
+                            :
+                                "Password"
+                            }
+                        </Label>
+                        <Input id="password" {...register('password', {required: "Password is Required"})} className={`${errors.password && "bg-red-50"}`}/>
                     </div>
                 </CardContent>
-                <CardFooter className="flex">
-                    <Button className="grow">Login as Instructor</Button>
+                <CardFooter className="grid grid-cols-2">
+                    <Button className="grow">
+                        {loading && <l-dot-stream size="45"></l-dot-stream>}
+						{!loading && "Login as Instructor"}
+                    </Button>
                     <Button className="grow" variant="link" onClick={()=> navigate('/register/instructor')}>New? Register</Button>
                 </CardFooter>
             </Card>

@@ -24,21 +24,21 @@ const generateAccessAndRefreshTokens = async(userId) =>
 
 
 const registerStudent = asyncHandler( async (req, res) => {
-    const {fullName, email, userName, password, phone} = req.body
+    const {fullname, email, username, password, phone} = req.body
     console.log(req.body)
      
 
 
 
    if (
-    [fullName,email, userName,password,phone].some((field) =>
+    [fullname,email, username,password,phone].some((field) =>
     String(field).trim() === "")
    ){
     throw new ApiError(400,"All fields are required")
    }
 
    const existedStudent = await Student.findOne({
-        $or:[{userName},{email}]
+        $or:[{username},{email}]
    })
 
    if(existedStudent){
@@ -46,8 +46,8 @@ const registerStudent = asyncHandler( async (req, res) => {
    }
 
    const student = await Student.create({
-          fullName,
-          userName:userName.toLowerCase(),
+          fullName : fullname,
+          userName: username.toLowerCase(),
           email,
           password,
           phone,
@@ -67,16 +67,15 @@ const registerStudent = asyncHandler( async (req, res) => {
 })
 
 const loginStudent = asyncHandler(async (req, res) => {
+     console.log(req)
+     const { username: userName, password} = req.body
 
-     const {email, userName, password} = req.body
-
-     if(!(userName || email)) {
+     console.log(userName)
+     console.log(password)
+     if([userName, password].some((field) => field.trim() === "")){
           throw new ApiError(400, "username or password is required")
      }
-
-     const student = await Student.findOne({
-          $or: [{userName},{email}]
-     })
+     const student = await Student.findOne({userName})
 
      if(!student) {
           throw new ApiError(404, "User does not exist")

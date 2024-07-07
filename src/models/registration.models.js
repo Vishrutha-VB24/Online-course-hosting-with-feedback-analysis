@@ -15,4 +15,4 @@ const registerSchema = new Schema({
     }
 )
 
-export const Register = mongoose.models("Register",registerSchema)
+export const Register = mongoose.model("Register",registerSchema)

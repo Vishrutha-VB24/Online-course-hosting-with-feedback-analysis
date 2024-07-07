@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function AuthButton({className}) {
     const authStatus = useSelector(state => state.auth.status)
-    const userName = useSelector(state => state.auth.userData.username) 
+    const userName = useSelector(state => state.auth.userData.userName) 
     const navigate = useNavigate()    
     return authStatus ?
     <DropdownMenu>

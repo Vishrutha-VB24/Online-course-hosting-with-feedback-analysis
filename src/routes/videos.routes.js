@@ -1,18 +1,19 @@
 import { Router } from "express";
-import { verifyJWT as verifyInstructorJWT } from "../middlewares/Instructorauth.middleware";
-import { verifyJWT as verifyStudentJWT} from "../middlewares/studentauth.middleware";
-import { uploadVideo } from "../controllers/videos.controller";
-import { upload } from "../middlewares/multer.middlewares";
+import { verifyJWT as verifyInstructorJWT } from "../middlewares/instructorauth.middleware.js";
+import { verifyJWT as verifyStudentJWT} from "../middlewares/studentauth.middleware.js";
+import { uploadVideo, getVideo } from "../controllers/videos.controller.js";
+import { upload } from "../middlewares/multer.middlewares.js";
 const  router = Router()
+
 router.route("/upload").post(
     verifyInstructorJWT,
-    upload.fields[{
+    upload.fields([{
     name:"video",
     maxCount:1
     },{
-        name:thumbnail,
+        name: "thumbnail",
         maxCount:1
-    }],
+    }]),
     uploadVideo
 )
 

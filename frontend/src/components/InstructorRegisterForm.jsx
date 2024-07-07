@@ -39,7 +39,8 @@ function InstructorRegisterForm() {
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button>Register</Button>
+                        {loading && <l-dot-stream size="45"></l-dot-stream>}
+						{!loading && "Register"}
                 </CardFooter>
             </Card>
         </form>
