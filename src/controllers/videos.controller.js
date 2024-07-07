@@ -3,7 +3,7 @@ import {Video} from "../models/videos.models.js"
 import { Student } from "../models/student.models.js"
 import { Instructor } from "../models/instructor.models"
 import { Course } from "../models/courses.models.js"
-import { registration} from "../models/registration.models.js"
+import { Register} from "../models/registration.models.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
@@ -97,9 +97,9 @@ const getVideo = asyncHandler(async (req, res, next) => {
         throw new ApiError(404, "Video not found");
     }
 
-    const course_id = video.course_id;
+    const courseID = video.courseID;
     const student_id = req.student._id;
-    const registration = await registration.findOne({ student_id, course_id });
+    const registration = await Register.findOne({$and:[{courseID},{student_id}]});
     
     if (!registration) {
         throw new ApiError(403, "Student is not registered for this course");
@@ -119,6 +119,37 @@ const getVideo = asyncHandler(async (req, res, next) => {
 
 
 
+// deleteVideo in this function 1.Instructor or not 2.video_id present or not 3.from videoOBJ remove course_id 4.Finde course owner then delete video and return the message
+const deleteVideo = asyncHandler(async (req, res, next) => {
+    if (!req.instructor) {
+        throw new ApiError(401, "Invalid Instructor");
+    }
+
+    const { id: video_id } = req.params;
+    if (!video_id || video_id.trim() === "") {
+        throw new ApiError(404, "Video ID is required");
+    }
+
+    const video = await Video.findById(video_id);
+    if (!video) {
+        throw new ApiError(404, "Video not found");
+    }
+
+    const courseID = video.courseID;
+    const instructor_id = req.instructor._id;
+    const course = await Course.findOne({ _id: courseID, instructor_id });
+    if (!course) {
+        throw new ApiError(403, "You do not have permission to delete this video");
+    }
+
+    await Video.deleteOne({ _id: video_id });
+
+    return res.status(200).json(
+        new ApiResponse(200, null, "Video deleted successfully")
+    );
+});
 
 
-export { uploadVideo,getVideo }
+
+
+export { uploadVideo,getVideo,deleteVideo }

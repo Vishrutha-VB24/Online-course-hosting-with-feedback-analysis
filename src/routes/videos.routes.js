@@ -20,7 +20,10 @@ router.route("/get/:id").post(
     verifyStudentJWT,
     getVideo
 )
-router.route("/detele").post()
+router.route("/detele").post(
+    verifyInstructorJWT,
+    deleteVideo
+)
     
 
 
