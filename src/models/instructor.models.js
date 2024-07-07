@@ -25,6 +25,7 @@ const instructorSchema = new mongoose.Schema(
             type: String,
             required: true
         }, //specification, qualification, experience
+<<<<<<< Updated upstream
         refreshToken: {
             type: String
         }
@@ -78,6 +79,17 @@ instructorSchema.methods.generateRefreshToken = function(){
     )
 }
 
+=======
+
+        refreshToken:{
+            type:String
+        }
+    }, { timestamps: true }
+)
+
+
+
+>>>>>>> Stashed changes
 
 export const Instructor = mongoose.model("Instructor", instructorSchema)
 
