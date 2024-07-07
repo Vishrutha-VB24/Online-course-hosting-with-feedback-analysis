@@ -5,6 +5,7 @@ import { Route, RouterProvider, createBrowserRouter,  createRoutesFromElements }
 import {Home, Course, Login, Register, VideoPlayer} from './pages/index.js'
 import { Provider } from 'react-redux'
 import { store } from './store/store.js'
+import { InstructorRegisterForm, StudentRegisterForm } from './components/index.js'
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -13,7 +14,10 @@ const router = createBrowserRouter(
 			<Route path='course' element={<Course />} />
 			<Route path='course/video/:id' element={<VideoPlayer />} />
 			<Route path='login' element={<Login />} />
-			<Route path='register' element={<Register />} />
+			<Route path='register' element={<Register />}>
+				<Route path='student' element={<StudentRegisterForm/>}></Route>
+				<Route path='instructor' element={<InstructorRegisterForm/>}></Route>
+			</Route> 
 		</Route>
 	)
 )

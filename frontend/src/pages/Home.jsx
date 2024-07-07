@@ -1,5 +1,6 @@
 import { CourseCard, ScrollArea } from "@/components";
-
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 function Home() {
     const arr = Array(10).fill(1);
     const ob = {
@@ -9,8 +10,7 @@ function Home() {
     return (
         <>
             <ScrollArea className="h-[calc(100vh-3.5rem)]">
-                <hr className="fixed top-14 left-4 w-[calc(100vw-2rem)]  border-zinc-500"/>
-                <div className="grid p-8 gap-4 " id="card-grid">
+                <div className="grid p-8 gap-8 place-items-center" id="card-grid">
                     {arr.map((val, i)=>(
                         <CourseCard cardInfo={ob} key={i}></CourseCard>
                     ))}
