@@ -15,10 +15,12 @@ const generateAccessAndRefreshTokens = async(userId) =>
           await student.save({validateBeforeSave: false})
 
           return {accessToken,refreshToken}
-
+     
      } catch (error) {
+          console.log(error)
           throw new ApiError(500,"Something went wrong while generating refresh and access token")
      }
+     
 }
 
 
@@ -81,6 +83,7 @@ const loginStudent = asyncHandler(async (req, res) => {
      if(!student) {
           throw new ApiError(404, "User does not exist")
      }
+     
 
      const isPasswordValid = await student.isPasswordCorrect(password)
 

@@ -27,7 +27,7 @@ app.use(cors())
  
  //routes
 
- import studentRouter from './routes/student.routes.js'
+ 
 
 
  //routes declaration

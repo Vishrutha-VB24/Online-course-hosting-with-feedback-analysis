@@ -1,4 +1,7 @@
 import mongoose from "mongoose"
+import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt"
+
 const instructorSchema = new mongoose.Schema(
     {
         fullname: {
@@ -37,7 +40,7 @@ const instructorSchema = new mongoose.Schema(
 instructorSchema.pre("save", async function (next) {
     if(!this.isModified("password")) return next();
 
-    this.password = bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
@@ -53,11 +56,11 @@ instructorSchema.methods.generateAccessToken = function(){
     return jwt.sign(
         {
             _id: this._id,
-            name:this.name,
-            username:this.username,
+            fullname:this.fullname,
+            userName:this.userName,
             email:this.email,
             phoneNumber:this.phoneNumber,
-            Bio: this.Bio
+            bio: this.bio
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
