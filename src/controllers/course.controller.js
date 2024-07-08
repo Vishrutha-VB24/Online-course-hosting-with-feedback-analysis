@@ -2,11 +2,12 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import {ApiResponse } from "../utils/ApiResponse.js"
 import { Register } from "../models/registration.models.js";
-import { Student } from "../models/student.models.js";
+// import { Student } from "../models/student.models.js";
 import {Course} from "../models/courses.models.js"
-import { Instructor } from "../models/instructor.models.js";
+import{ getAllCourse,getCourse,courseRegistration,getAllCourseVideos,getCourseVideo } from ""
+// import { Instructor } from "../models/instructor.models.js";
 
-const registerToCourse = asyncHandler(async(req, res) => {
+const courseRegistration = asyncHandler(async(req, res) => {
     if (!req.student) {
         throw new ApiError(401, "Unauthorized student")
     }

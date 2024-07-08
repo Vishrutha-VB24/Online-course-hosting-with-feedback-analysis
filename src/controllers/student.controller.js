@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/asyncHandler.js"
-import {ApiError} from "../utils/ApiError.js"
+import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { Student } from "../models/student.models.js"
 import jwt from "jsonwebtoken"
@@ -46,7 +46,7 @@ const registerStudent = asyncHandler( async (req, res) => {
      })
 
      const createdStudent = await Student.findById(student._id).select(
-          "-password -refreshToken"
+          "-password -studentrefreshToken"
      )
 
      if(!createdStudent) {
@@ -76,7 +76,7 @@ const loginStudent = asyncHandler(async (req, res) => {
 
      const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(student._id)
 
-     const loggedInStudent = await Student.findById(student._id).select("-password -refreshToken")
+     const loggedInStudent = await Student.findById(student._id).select("-password -studentrefreshToken")
 
      const options = { httpOnly: true}
 

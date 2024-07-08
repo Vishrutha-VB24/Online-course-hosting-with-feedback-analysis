@@ -6,14 +6,14 @@ import { Student } from "../models/student.models.js";
 
 export const verifyJWT = asyncHandler(async(req, res, next) => {
     try {
-        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer","")
+        const token = req.cookies?.studentAccessToken || req.header("Authorization")?.replace("Bearer","")
         if(!token) {
             next()
             return
         }
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
     
-        const student = await Student.findById(decodedToken?._id).select("-password -refreshToken")
+        const student = await Student.findById(decodedToken?._id).select("-password -studentRefreshToken")
     
         if(!student) {
             throw new ApiError(401, "Invalid access token")
