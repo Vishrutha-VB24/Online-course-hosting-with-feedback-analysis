@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDebugValue, useState } from "react";
 import { dotStream } from "ldrs";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login as authLogin} from "@/store/authSlice";
 function StudentLoginForm() {
     dotStream.register()
@@ -15,10 +15,11 @@ function StudentLoginForm() {
     const login = (data) =>{
         console.log("---------------------")
         setLoading(true);
-        axios.post("http://localhost:8000/api/student/login", data)
+        axios.post("http://localhost:8000/api/student/login", data, {withCredentials: true, withXSRFToken: true})
             .then(res => {
+                console.log(res.data.data)
                 dispatch(authLogin({userData: res.data.data.student}))
-                navigate('/')
+                navigate("/")
             })
             .catch(error => {
                 console.log(error);
@@ -26,7 +27,6 @@ function StudentLoginForm() {
             .finally(()=>{
                 setLoading(false);
             })
-
     }
     return (
         <form onSubmit={handleSubmit(login)}>

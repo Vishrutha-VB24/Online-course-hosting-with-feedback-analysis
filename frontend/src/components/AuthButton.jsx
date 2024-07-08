@@ -12,7 +12,7 @@ function AuthButton({className}) {
         <DropdownMenuTrigger>
                 <Avatar className="border hover:border-black duration-200">
                     <AvatarImage src=""></AvatarImage>
-                    <AvatarFallback>{userName[0].toUpperCase()}</AvatarFallback>
+                    {/* <AvatarFallback>{userName[0].toUpperCase()}</AvatarFallback> */}
                 </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='w-32'>

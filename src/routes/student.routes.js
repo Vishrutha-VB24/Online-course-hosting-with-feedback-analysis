@@ -1,7 +1,9 @@
 import {Router} from 'express'
-import { loginStudent, logoutStudent, registerStudent, refreshAccessToken } from '../controllers/student.controller.js'
+import {getCurrentStudent, loginStudent, logoutStudent, registerStudent, refreshAccessToken } from '../controllers/student.controller.js'
 import {upload} from "../middlewares/multer.middlewares.js"
 import { verifyJWT } from '../middlewares/studentauth.middleware.js'
+import { getCookie } from '../controllers/student.controller.js'
+
 
 
 const router = Router()
@@ -16,5 +18,8 @@ router.route("/login").post(loginStudent)
 //secured routes
 router.route("/logout").post(verifyJWT, logoutStudent)
 router.route("/student-refresh-token").post(refreshAccessToken)
+router.route("/current").get(verifyJWT, getCurrentStudent)
+router.route("/cookie").get(getCookie)
+
 
 export default router

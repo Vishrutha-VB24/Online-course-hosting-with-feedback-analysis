@@ -1,7 +1,24 @@
 import { CourseCard, ScrollArea } from "@/components";
+import axios from "axios";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "@/store/authSlice";
 function Home() {
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        axios.get("http://localhost:8000/api/student/current", { withCredentials: true})
+        .then(res =>{
+            const userData = res.data?.data;
+            console.log(userData)
+            if(userData){
+                dispatch(login(userData));
+            }
+        })
+        .catch(error =>{
+            console.log(error)
+        })
+        
+    }, [])
     const arr = Array(10).fill(1);
     const ob = {
         title: 'Lorem ipsum dolor sit amet afspoifhaspj;faskjvbspu. fapsudfhaspiubasvjdsnf;asuhfpas9uffoiwg9p',

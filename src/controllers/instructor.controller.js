@@ -86,7 +86,7 @@ const loginInstructor = asyncHandler(async (req, res) => {
     const isPasswordValid = await instructor.isPasswordCorrect(password)
 
     if(!isPasswordValid) {
-        throw new ApiError(401, "Inavlid instructor credentials")
+        throw new ApiError(401, "Inavid instructor credentials")
     }
 
     const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(instructor._id)

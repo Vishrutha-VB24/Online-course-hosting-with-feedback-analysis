@@ -37,7 +37,7 @@ const instructorSchema = new mongoose.Schema(
 instructorSchema.pre("save", async function (next) {
     if(!this.isModified("password")) return next();
 
-    this.password = bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
