@@ -17,7 +17,6 @@ function StudentLoginForm() {
         setLoading(true);
         axios.post("http://localhost:8000/api/student/login", data, {withCredentials: true, withXSRFToken: true})
             .then(res => {
-                console.log(res.data.data)
                 dispatch(authLogin({userData: res.data.data.student}))
                 navigate("/")
             })

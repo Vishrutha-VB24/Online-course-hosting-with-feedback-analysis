@@ -1,13 +1,15 @@
-import { AuthButton, Input} from ".";
+import { useSelector } from "react-redux";
+import { AuthButton, Button, Input} from ".";
 import { useLocation, useNavigate } from "react-router-dom";
 function Header() {
     const loc = useLocation();
     const titleOnly = !loc.pathname.startsWith("/login") && !loc.pathname.startsWith("/register") 
     const navigate = useNavigate()
-
+    const status = useSelector(state => state.auth.status)
     return (
         <>
             <header className="h-14 flex  px-8 items-center gap-8 justify-between">
+            <Button onClick={()=> console.log(status)}></Button>
             <h2 className="font-bold text-[1.7rem] bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent cursor-pointer" onClick={()=>{navigate('/')}}>Learner&apos;s Point</h2>
             {
                 titleOnly && 
