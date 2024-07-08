@@ -1,4 +1,5 @@
 import axios from "axios"
+import { reuleaux } from "ldrs";
 
 const apiRoute = 'http://localhost:8000/api'
 
@@ -14,6 +15,14 @@ function getUser(role){
 }
 function logout(role){
     return axios.get(`${apiRoute}/${role}/logout`);
+}
+
+function getProfile(role){
+    return axios.get(`${apiRoute}/${role}/profile`)
+    // should return a student object if role is student 
+    /*
+        should return instructor object and all courses of instructor if instructor
+    */
 }
 
 function getAllCourse(){
@@ -41,6 +50,24 @@ function getCourseVideo(courseID, videoID){
 }
 
 
+function getCourseProfile(courseID){
+    return axios.get(`${apiRoute}/course/${id}/profile`)
+    // should return a course object with an array of all the videos under that course
+}
+
+function uploadVideo(courseID){
+    return axios.post(`${apiRoute}/video/upload/${courseID}`)
+    // should verify as instructor, check if the course belong to the instructor and then upload to cloudinary and create video object
+}
+
+function deleteVideo(videoID){
+    return axios.delete(`${apiRoute}/video/delete/${videoID}`)
+    //should verify as instrucor, check if the instructor is the owner of video and then  delete
+}
+
+
+
 export {
 
 }
+    
