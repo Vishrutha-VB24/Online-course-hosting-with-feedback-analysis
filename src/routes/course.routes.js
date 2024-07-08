@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { verifyJWT as verifyStudentJWT } from "../middlewares/studentauth.middleware.js";
 import { verifyJWT as verifyInstructorJWt } from "../middlewares/instructorauth.middleware.js";
-
+import { registerToCourse,createCourse,deleteCourse } from "../controllers/course.controller.js";
 const router = Router()
 
 router.route("/register").post(verifyStudentJWT, registerToCourse)
