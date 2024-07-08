@@ -17,6 +17,7 @@ function logout(role){
     return axios.get(`${apiRoute}/${role}/logout`);
 }
 
+
 function getProfile(role){
     return axios.get(`${apiRoute}/${role}/profile`)
     // should return a student object if role is student 
@@ -27,26 +28,19 @@ function getProfile(role){
 
 function getAllCourse(){
     return axios.get(`${apiRoute}/course/all`);
-    //verification not needed
     //should return an array of posts where each post contains tumbnail_url, title, descripton
-
 }
 
 function getCourse(courseID){
     return axios.get(`${apiRoute}/course/${courseID}`);
-    //verification needed
-    //can be either student or instrocture
     //should return a course object of reuested is and with variable indicating the user has register to that course
 }
 
 function courseRegistration(courseID){
-    //verification needed
     return axios.get(`${apiRoute}/course/register/${courseID}`);
 }
 
 function getAllCourseVideos(courseID){
-    //verification needed
-    
     return axios.get(`${apiRoute}/course/${courseID}/videos`);
     //should return an array of video objects of the mentioned course if the user is registered to the course
 }
@@ -73,16 +67,5 @@ function deleteVideo(videoID){
 }
 
 export {
-    login,
-    register,
-    getUser,
-    logout,
-    getAllCourse,
-    getCourse,
-    courseRegistration,
-    getAllCourseVideos,
-    getCourseVideo,
-    
 
 }
-    
