@@ -1,6 +1,6 @@
-import { asyncHandler } from "../utils/asyncHandler";
-import { ApiError } from "../utils/ApiError";
-import {ApiResponse } from "../utils/ApiResponse"
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import {ApiResponse } from "../utils/ApiResponse.js"
 import { Register } from "../models/registration.models.js";
 import { Student } from "../models/student.models.js";
 import {Course} from "../models/courses.models.js"
@@ -71,3 +71,10 @@ const deleteCourse = asyncHandler(async(req, res) => {
 
     return res.status(200).json(new ApiResponse(200, null, "Course deleted successfully"));
 })
+
+
+export{
+    registerToCourse,
+    createCourse,
+    deleteCourse
+}
