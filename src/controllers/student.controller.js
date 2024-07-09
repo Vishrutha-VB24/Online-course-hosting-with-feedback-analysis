@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken"
 // import { upload } from "../middlewares/multer.middlewares.js"
 const generateAccessAndRefreshTokens = async(userId) =>{
      try {
-          const student = await Student.findById(userId)
+          const student = await User.findById(userId)
           const accessToken = student.generateAccessToken()
           const refreshToken = student.generateRefreshToken()
 
@@ -29,7 +29,7 @@ const registerStudent = asyncHandler( async (req, res) => {
           throw new ApiError(400,"All fields are required")
      }
 
-     const existedStudent = await Student.findOne({
+     const existedStudent = await User.findOne({
           $or:[{username},{email}]
      })
 
@@ -37,15 +37,16 @@ const registerStudent = asyncHandler( async (req, res) => {
           throw new ApiError(409, "Student with email or username exists")
      }
 
-     const student = await Student.create({
+     const student = await User.create({
           fullName : fullname,
           userName: username.toLowerCase(),
           email,
           password,
           phone,
+          role:"student"
      })
 
-     const createdStudent = await Student.findById(student._id).select(
+     const createdStudent = await User.findById(student._id).select(
           "-password -studentrefreshToken"
      )
 
@@ -66,7 +67,7 @@ const loginStudent = asyncHandler(async (req, res) => {
      if([userName, password].some((field) => field.trim() === "")){
           throw new ApiError(400, "username or password is required")
      }
-     const student = await Student.findOne({userName})
+     const student = await User.findOne({userName})
 
      if(!student) { throw new ApiError(404, "User does not exist") }
 
@@ -76,7 +77,7 @@ const loginStudent = asyncHandler(async (req, res) => {
 
      const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(student._id)
 
-     const loggedInStudent = await Student.findById(student._id).select("-password -studentrefreshToken")
+     const loggedInStudent = await User.findById(student._id).select("-password -studentrefreshToken")
 
      const options = { httpOnly: true}
 
@@ -88,7 +89,7 @@ const loginStudent = asyncHandler(async (req, res) => {
 })
 
 const logoutStudent = asyncHandler(async(req, res) => {
-     await Student.findByIdAndUpdate(
+     await User.findByIdAndUpdate(
           req.student._id,
           {
                $set: {
@@ -122,7 +123,7 @@ const refreshAccessToken = asyncHandler(async(req, res) => {
                process.env.REFRESH_TOKEN_SECRET
           )
      
-          const student = await Student.findById(decodedToken?._id)
+          const student = await User.findById(decodedToken?._id)
      
           if (!student) {
                throw new ApiError(401,"Invalid refresh token")
