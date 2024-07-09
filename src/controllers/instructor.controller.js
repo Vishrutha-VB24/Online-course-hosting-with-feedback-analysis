@@ -26,10 +26,10 @@ const registerInstructor = asyncHandler( async (req, res) => {
     //     message: "ok"
     // })
 
-    const {name, username, email, password, phoneNumber, Bio} = req.body
+    const {fullname, username, email, password, phone, bio} = req.body
     console.log("email: ", email);
 
-    if([name, username, email, password, phoneNumber, Bio].some((field) =>
+    if([fullname, username, email, password, phone, bio].some((field) =>
     field?.trim() === ""))
     {
         throw new ApiError(400, "All fields are required")
@@ -39,18 +39,19 @@ const registerInstructor = asyncHandler( async (req, res) => {
         $or: [{ username}, {email}]
     })
 
-    if (existedUser) {
+    if (existedInstructor) {
         throw new ApiError(409, "Instructor with email or username already exists")
     }
     // console.log(req.files);
 
     const user = await User.create({
-        name,
+        fullName:fullname,
         email,
         password,
-        username: username.toLowerCase(),
-        phoneNumber,
-        Bio
+        userName: username.toLowerCase(),
+        phone,
+        role:"instructor",
+        bio
     })
 
     const createdInstructor = await User.findById(user._id).select(
