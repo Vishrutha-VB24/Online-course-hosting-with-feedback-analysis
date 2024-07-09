@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, Label, Input, CardFooter, Button } from ".";
 import { useNavigate } from "react-router-dom";
-import { useDebugValue, useState } from "react";
+import {  useState } from "react";
 import { dotStream } from "ldrs";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, } from "react-redux";
 import { login as authLogin} from "@/store/authSlice";
+import {login as loginApi} from '../utils/apis.js'
 function StudentLoginForm() {
     dotStream.register()
     const dispatch = useDispatch()
@@ -15,8 +16,9 @@ function StudentLoginForm() {
     const login = (data) =>{
         console.log("---------------------")
         setLoading(true);
-        axios.post("http://localhost:8000/api/student/login", data, {withCredentials: true, withXSRFToken: true})
+        loginApi(data, 'student')
             .then(res => {
+                console.log(res)
                 dispatch(authLogin({userData: res.data.data.student}))
                 navigate("/")
             })

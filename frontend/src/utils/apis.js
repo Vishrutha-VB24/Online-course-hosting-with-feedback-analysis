@@ -3,10 +3,10 @@ import axios from "axios"
 const apiRoute = 'http://localhost:8000/api'
 
 function login(data, role){
-    return axios.post(`${apiRoute}/${role}/login`);
+    return axios.post(`${apiRoute}/${role}/login`, data);
 }
 function register(data, role){
-    return axios.post(`${apiRoute}/${role}/register`);
+    return axios.post(`${apiRoute}/${role}/register`, data);
 }
 
 function getUser(role){

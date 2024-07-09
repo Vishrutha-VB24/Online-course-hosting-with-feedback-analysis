@@ -82,7 +82,7 @@ function StudentRegisterForm() {
                             <span>Password</span>
                             }
                         </Label>
-                        <Input id='password' {...register('password', {required: "Password is required"})} className={`${errors.password && "bg-red-50"}`}/>
+                        <Input id='password' {...register('password', {required: "Password is required", validate: value => value.length > 6 || "Password is too short"})} className={`${errors.password && "bg-red-50"}`}/>
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor='cpassword' >
