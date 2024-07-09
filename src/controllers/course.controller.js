@@ -71,8 +71,7 @@ const deleteCourse = asyncHandler(async(req, res) => {
     return res.status(200).json(new ApiResponse(200, null, "Course deleted successfully"));
 })
 
-const allCourses = asyncHandler(async(req,res,_) => {
-    
+const allCourses = asyncHandler(async(req,res) => {
     const courses = await Course.find();
     console.log("HI")
     console.log(courses)
