@@ -17,6 +17,7 @@ function App() {
 			if(res.data?.data){
 				dispatch(login(res.data?.data))
 			}
+			console.log(document.cookie)
 		})
 		.catch(err=>{
 			console.log(err)

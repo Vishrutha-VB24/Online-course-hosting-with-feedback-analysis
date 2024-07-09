@@ -6,7 +6,7 @@ import { dotStream } from "ldrs";
 import axios from "axios";
 import { useDispatch, } from "react-redux";
 import { login as authLogin} from "@/store/authSlice";
-import {login as loginApi} from '../utils/apis.js'
+import {getAllCourse, login as loginApi} from '../utils/apis.js'
 function StudentLoginForm() {
     dotStream.register()
     const dispatch = useDispatch()
@@ -19,8 +19,9 @@ function StudentLoginForm() {
         loginApi(data, 'student')
             .then(res => {
                 console.log(res)
-                dispatch(authLogin({userData: res.data.data.student}))
-                navigate("/")
+                // dispatch(authLogin({userData: res.data.data.student}))
+                // navigate("/")
+                getAllCourse()
             })
             .catch(error => {
                 console.log(error);
