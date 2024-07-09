@@ -1,8 +1,8 @@
 import {Router} from 'express'
 import {getCurrentStudent, loginStudent, logoutStudent, registerStudent, refreshAccessToken } from '../controllers/student.controller.js'
 import {upload} from "../middlewares/multer.middlewares.js"
-import { verifyJWT } from '../middlewares/studentauth.middleware.js'
 import { getCookie } from '../controllers/student.controller.js'
+import { verifyJWT } from '../middlewares/auth.middleware.js'
 
 
 

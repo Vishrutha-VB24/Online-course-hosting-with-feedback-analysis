@@ -9,8 +9,8 @@ function register(data, role){
     return axios.post(`${apiRoute}/${role}/register`, data);
 }
 
-function getUser(role){
-    return axios.get(`${apiRoute}/${role}/current`);
+function getUser(){
+    return axios.get(`${apiRoute}/user/current`, {withCredentials: true} );
 }
 function logout(role){
     return axios.get(`${apiRoute}/${role}/logout`);

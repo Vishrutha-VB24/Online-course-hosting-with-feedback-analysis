@@ -5,6 +5,7 @@ import videosRouter from './routes/videos.routes.js'
 import instructorRouter from './routes/instructor.routes.js'
 import studentRouter from './routes/student.routes.js'
 import courseRouter from './routes/course.routes.js'
+import userRouter from './routes/user.routes.js'
 const app = express()
 
 const corsOptions = {
@@ -12,7 +13,7 @@ const corsOptions = {
     credentials: true, 
     optionsSuccessStatus: 200, 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Authorization',
+    allowedHeaders: 'Content-Type, Authorization, Cookie, Set-Cookie',
 };
 
 app.use(cors(corsOptions));
@@ -31,5 +32,7 @@ app.use("/api/course",courseRouter)
 app.use('/api/videos',videosRouter)
 app.use('/api/instructor',instructorRouter)
 app.use("/api/student",studentRouter)
+app.use("/api/user", userRouter)
+
 
 export{ app }
