@@ -1,5 +1,6 @@
 import { Button, CourseCard, ScrollArea } from "@/components";
 import { getAllCourse } from "@/utils/apis";
+import { response } from "express";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 function Home() {
@@ -12,12 +13,11 @@ function Home() {
     const [courses, setCourses] = useState([]);
 
     getAllCourse()
-    .then(res => {
-        getAllCourse()
         .then(res=>{
+            console.log(res)
             setCourses(res.data.courses);
+            
         })
-    })
     .catch(err =>{
         console.log('navigate to error page', err)
     })
