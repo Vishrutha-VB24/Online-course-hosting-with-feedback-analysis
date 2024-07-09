@@ -1,12 +1,12 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js"
-import { Instructor } from "../models/instructor.models.js"
+import { User } from "../models/user.models.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
 
 const generateAccessAndRefreshTokens = async(instructorID) => {
     try {
-        const user = await Instructor.findById(instructorId)
+        const instructor = await User.findById(instructorId)
         const accessToken = instructor.generateAccessToken
         const refreshToken =  instructor.generateRefreshToken
 
@@ -35,7 +35,7 @@ const registerInstructor = asyncHandler( async (req, res) => {
         throw new ApiError(400, "All fields are required")
     }
 
-    const existedInstructor = await Instructor.findOne({
+    const existedInstructor = await User.findOne({
         $or: [{ username}, {email}]
     })
 
@@ -44,7 +44,7 @@ const registerInstructor = asyncHandler( async (req, res) => {
     }
     // console.log(req.files);
 
-    const user = await Instructor.create({
+    const user = await User.create({
         name,
         email,
         password,
@@ -53,7 +53,7 @@ const registerInstructor = asyncHandler( async (req, res) => {
         Bio
     })
 
-    const createInstructor = await Instructor.findById(user._id).select(
+    const createdInstructor = await User.findById(user._id).select(
         "-password -refreshToken"
     )
 
@@ -62,7 +62,7 @@ const registerInstructor = asyncHandler( async (req, res) => {
     }
 
     return res.status(201).json(
-        new ApiResponse(200, createInstructor, "Instructor registered successfully")
+        new ApiResponse(200, createdInstructor, "Instructor registered successfully")
     )
 
 })
@@ -75,7 +75,7 @@ const loginInstructor = asyncHandler(async (req, res) => {
 
     }
 
-    const instructor = await Instructor.findOne({
+    const instructor = await User.findOne({
         $or: [{username}, {email}]
     })
 
@@ -91,7 +91,7 @@ const loginInstructor = asyncHandler(async (req, res) => {
 
     const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(instructor._id)
 
-    const loggedInInstructor = await Instructor.findById(instructorId).select("-password -refreshToken")
+    const loggedInInstructor = await User.findById(instructorId).select("-password -refreshToken")
 
     const options = {
         httpOnly: true,
