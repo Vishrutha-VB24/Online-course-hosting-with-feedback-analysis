@@ -71,14 +71,12 @@ const registerInstructor = asyncHandler( async (req, res) => {
 const loginInstructor = asyncHandler(async (req, res) => {
 
     const {email, username, password} = req.body
-    if(!username || !email) {
+    if(!username) {
         throw new ApiError(400, "username or password is required")
 
     }
 
-    const instructor = await User.findOne({
-        $or: [{username}, {email}]
-    })
+    const instructor = await User.findOne({userName:username})
 
     if(!instructor){
         throw new ApiError(400, "User does not exist")
@@ -92,7 +90,7 @@ const loginInstructor = asyncHandler(async (req, res) => {
 
     const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(instructor._id)
 
-    const loggedInInstructor = await User.findById(instructorId).select("-password -refreshToken")
+    const loggedInInstructor = await User.findById(instructor._id).select("-password -refreshToken")
 
     const options = {
         httpOnly: true,
@@ -104,20 +102,13 @@ const loginInstructor = asyncHandler(async (req, res) => {
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken",refreshToken, options)
     .json(
-        new ApiResponse(
-            200,
-            {
-                instructor: loggedInInstructor, accessToken, refreshToken
-
-            },
-            "Instructor logged In Successfully"
-        )
+        new ApiResponse(200,{ instructor: loggedInInstructor, accessToken, refreshToken },"Instructor logged In Successfully")
     )
 
 })
 
 const logoutInstructor = asyncHandler(async(req, res) => {
-    await Instructor.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
         req.instructor._id,
         {
             $set: {
@@ -153,7 +144,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
             process.env.REFRESH_TOKEN_SECRET
         )
     
-        const instructor = await Instructor.findById(decodedToken?._id)
+        const instructor = await User.findById(decodedToken?._id)
     
         if (!instructor) {
             throw new ApiError(401, "Invalid refresh token")
@@ -190,9 +181,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 const getCurrentInstructor = asyncHandler(async(req, res) => {
     return res
     .status(200)
-    .json(200, req.user, "current user fetched successfully")
+    .json(new ApiResponse(200, req.user, "Instructor fetched successfully"))
 
 })
+
 
 
 
@@ -200,6 +192,7 @@ const getCurrentInstructor = asyncHandler(async(req, res) => {
 export {
     registerInstructor,
     loginInstructor,
+    getCurrentInstructor,
     logoutInstructor,
     refreshAccessToken
 }
