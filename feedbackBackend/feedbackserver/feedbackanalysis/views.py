@@ -7,19 +7,7 @@ from .serializers import ReviewSerializer
 import pickle
 import os
 
-class ReviewAPIView(APIView):
-    def post(self, request):
-        serializer = ReviewSerializer(data=request.data)
-        if serializer.is_valid():
-            # Process the data here
-            review = serializer.validated_data['review']
-            rating = serializer.validated_data['rating']
 
-            print(review)
-            print(rating)
-            # For example, you can save the data to the database or perform some analysis
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -44,5 +32,17 @@ def predict_rating(feedback_text):
     return rating
 
 
+class ReviewAPIView(APIView):
+    def post(self, request):
+        serializer = ReviewSerializer(data=request.data)
+        if serializer.is_valid():
+            # Process the data here
+            review = serializer.validated_data['review']
+            rating = serializer.validated_data['rating']
 
-print(predict_rating("this course was not good as well as not bad"))
+            print(predict_rating(review))
+            print(rating)
+            # For example, you can save the data to the database or perform some analysis
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

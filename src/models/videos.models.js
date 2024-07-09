@@ -26,10 +26,7 @@ const videoSchema = new Schema(
             type:Number,
             default:0
         },
-        isPublished:{
-            type:Boolean,
-            default:true
-        },
+
         courseID:{
             type:Schema.Types.ObjectId,
             ref:"Course"

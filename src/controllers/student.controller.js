@@ -1,13 +1,12 @@
 import { asyncHandler } from "../utils/asyncHandler.js"
-import {ApiError} from "../utils/ApiError.js"
+import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
-import { Student } from "../models/student.models.js"
+import { User } from "../models/user.models.js"
 import jwt from "jsonwebtoken"
 // import { upload } from "../middlewares/multer.middlewares.js"
-const generateAccessAndRefreshTokens = async(userId) =>
-{
+const generateAccessAndRefreshTokens = async(userId) =>{
      try {
-          const student = await Student.findById(userId)
+          const student = await User.findById(userId)
           const accessToken = student.generateAccessToken()
           const refreshToken = student.generateRefreshToken()
 
@@ -24,93 +23,73 @@ const generateAccessAndRefreshTokens = async(userId) =>
 
 
 const registerStudent = asyncHandler( async (req, res) => {
-    const {fullName, email, userName, password, phone} = req.body
-    console.log(req.body)
-     
+    const {fullname, email, username, password, phone} = req.body
 
+     if ( [fullname,email, username,password,phone].some((field) => String(field).trim() === "")){
+          throw new ApiError(400,"All fields are required")
+     }
 
+     const existedStudent = await User.findOne({
+          $or:[{username},{email}]
+     })
 
-   if (
-    [fullName,email, userName,password,phone].some((field) =>
-    String(field).trim() === "")
-   ){
-    throw new ApiError(400,"All fields are required")
-   }
+     if(existedStudent){
+          throw new ApiError(409, "Student with email or username exists")
+     }
 
-   const existedStudent = await Student.findOne({
-        $or:[{userName},{email}]
-   })
-
-   if(existedStudent){
-        throw new ApiError(409, "Student with email or username exists")
-   }
-
-   const student = await Student.create({
-          fullName,
-          userName:userName.toLowerCase(),
+     const student = await User.create({
+          fullName : fullname,
+          userName: username.toLowerCase(),
           email,
           password,
           phone,
-   })
-
-   const createdStudent = await Student.findById(student._id).select(
-     "-password -refreshToken"
-   )
-
-   if(!createdStudent) {
-     throw new ApiError(500,"Something went wrong while registering")
-   }
-
-   return res.status(201).json(
-     new  ApiResponse(200,createdStudent, "Student registered successfully")
-   )
-})
-
-const loginStudent = asyncHandler(async (req, res) => {
-
-     const {email, userName, password} = req.body
-
-     if(!(userName || email)) {
-          throw new ApiError(400, "username or password is required")
-     }
-
-     const student = await Student.findOne({
-          $or: [{userName},{email}]
+          role:"student"
      })
 
-     if(!student) {
-          throw new ApiError(404, "User does not exist")
+     const createdStudent = await User.findById(student._id).select(
+          "-password -studentrefreshToken"
+     )
+
+     if(!createdStudent) {
+          throw new ApiError(500,"Something went wrong while registering")
      }
-
-     const isPasswordValid = await student.isPasswordCorrect(password)
-
      
-     if(!isPasswordValid) {
-          throw new ApiError(401, "Invalid user credentials")
-     }
-
-     const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(student._id)
-
-     const loggedInStudent = await Student.findById(student._id).select("-password -refreshToken")
-
-     const options = {
-          httpOnly: true,
-          secure: true
-     }
-
-     return res.status(200).cookie("accessToken",accessToken, options).cookie("refreshToken", refreshToken, options).json(
-          new ApiResponse(
-               200,
-               {
-                    student:loggedInStudent, accessToken, refreshToken
-               },
-               "Student logged in successfully"
-          )
+     return res.status(201).json(
+          new  ApiResponse(200,createdStudent, "Student registered successfully")
      )
 })
 
+const loginStudent = asyncHandler(async (req, res) => {
+     const { username: userName, password} = req.body
+
+     console.log(userName)
+     console.log(password)
+     if([userName, password].some((field) => field.trim() === "")){
+          throw new ApiError(400, "username or password is required")
+     }
+     const student = await User.findOne({userName})
+
+     if(!student) { throw new ApiError(404, "User does not exist") }
+
+     const isPasswordValid = await student.isPasswordCorrect(password)
+
+     if(!isPasswordValid) { throw new ApiError(401, "Invalid user credentials") }
+
+     const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(student._id)
+
+     const loggedInStudent = await User.findById(student._id).select("-password -studentrefreshToken")
+
+     const options = { httpOnly: true}
+
+     
+     res.status(200)
+          .cookie("accessToken",accessToken, options)
+          .cookie("refreshToken", refreshToken, options)
+     res.send(new ApiResponse(200,{ student:loggedInStudent, accessToken, refreshToken},"Student logged in successfully"))
+})
+
 const logoutStudent = asyncHandler(async(req, res) => {
-     await Student.findByIdAndUpdate(
+     await User.findByIdAndUpdate(
           req.student._id,
           {
                $set: {
@@ -144,7 +123,7 @@ const refreshAccessToken = asyncHandler(async(req, res) => {
                process.env.REFRESH_TOKEN_SECRET
           )
      
-          const student = await Student.findById(decodedToken?._id)
+          const student = await User.findById(decodedToken?._id)
      
           if (!student) {
                throw new ApiError(401,"Invalid refresh token")
@@ -172,9 +151,22 @@ const refreshAccessToken = asyncHandler(async(req, res) => {
      }
 })
 
+const getCurrentStudent = asyncHandler(async (req, res)=>{
+     
+     return res.status(200).json(new ApiResponse(200, req.student, "User fetch succesfully"))
+})
+
+const getCookie = asyncHandler(async (req, res) =>{
+     console.log(req.cookies)
+     res.cookie("mycookie", "hello", {maxAge: 90000000, httpOnly: true})
+     res.send("cookie has been sent")
+})
+
 export {
     registerStudent,
     loginStudent,
     logoutStudent,
     refreshAccessToken,
+    getCurrentStudent,
+    getCookie
 }

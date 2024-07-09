@@ -1,12 +1,12 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js"
-import { Instructor } from "../models/instructor.models.js"
+import { User } from "../models/user.models.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
 
 const generateAccessAndRefreshTokens = async(instructorID) => {
     try {
-        const user = await Instructor.findById(instructorId)
+        const instructor = await User.findById(instructorId)
         const accessToken = instructor.generateAccessToken
         const refreshToken =  instructor.generateRefreshToken
 
@@ -26,34 +26,35 @@ const registerInstructor = asyncHandler( async (req, res) => {
     //     message: "ok"
     // })
 
-    const {name, username, email, password, phoneNumber, Bio} = req.body
+    const {fullname, username, email, password, phone, bio} = req.body
     console.log("email: ", email);
 
-    if([name, username, email, password, phoneNumber, Bio].some((field) =>
+    if([fullname, username, email, password, phone, bio].some((field) =>
     field?.trim() === ""))
     {
         throw new ApiError(400, "All fields are required")
     }
 
-    const existedInstructor = await Instructor.findOne({
+    const existedInstructor = await User.findOne({
         $or: [{ username}, {email}]
     })
 
-    if (existedUser) {
+    if (existedInstructor) {
         throw new ApiError(409, "Instructor with email or username already exists")
     }
     // console.log(req.files);
 
-    const user = await Instructor.create({
-        name,
+    const user = await User.create({
+        fullName:fullname,
         email,
         password,
-        username: username.toLowerCase(),
-        phoneNumber,
-        Bio
+        userName: username.toLowerCase(),
+        phone,
+        role:"instructor",
+        bio
     })
 
-    const createInstructor = await Instructor.findById(user._id).select(
+    const createdInstructor = await User.findById(user._id).select(
         "-password -refreshToken"
     )
 
@@ -62,7 +63,7 @@ const registerInstructor = asyncHandler( async (req, res) => {
     }
 
     return res.status(201).json(
-        new ApiResponse(200, createInstructor, "Instructor registered successfully")
+        new ApiResponse(200, createdInstructor, "Instructor registered successfully")
     )
 
 })
@@ -75,7 +76,7 @@ const loginInstructor = asyncHandler(async (req, res) => {
 
     }
 
-    const instructor = await Instructor.findOne({
+    const instructor = await User.findOne({
         $or: [{username}, {email}]
     })
 
@@ -86,12 +87,12 @@ const loginInstructor = asyncHandler(async (req, res) => {
     const isPasswordValid = await instructor.isPasswordCorrect(password)
 
     if(!isPasswordValid) {
-        throw new ApiError(401, "Inavlid instructor credentials")
+        throw new ApiError(401, "Inavid instructor credentials")
     }
 
     const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(instructor._id)
 
-    const loggedInInstructor = await Instructor.findById(instructorId).select("-password -refreshToken")
+    const loggedInInstructor = await User.findById(instructorId).select("-password -refreshToken")
 
     const options = {
         httpOnly: true,
