@@ -1,19 +1,19 @@
-import { Outlet, useSearchParams } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import './App.css'
 import { Header } from './components'
 import { useEffect, useState } from 'react'
-import { getCurrentUser } from './utils'
 import { useDispatch } from 'react-redux'
 import { login } from './store/authSlice'
-import { dotStream } from 'ldrs'
+import { leapfrog } from 'ldrs'
+import { getUser } from './utils/apis'
+import { Course } from './pages'
 function App() {
-	dotStream.register()
+	leapfrog.register()
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(true);
 	useEffect(()=>{
-		getCurrentUser()
+		getUser()
 		.then(res=>{
-			console.log(res)
 			if(res.data?.data){
 				dispatch(login(res.data?.data))
 			}
@@ -26,13 +26,15 @@ function App() {
 		})
 	})
 	return loading ?
-	<div className='fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center flex-col'>
-		<l-dot-stream size="70"></l-dot-stream>
-		<p>Loading</p>
-	</div>:
+	<div className='gap-3 fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center'>
+		<div className='flex items-center gap-1 '>
+			<p>Loading</p>
+			<l-leapfrog size={20}></l-leapfrog>
+		</div>
+	</div> :
 	<>
-		<Header></Header>
-		<Outlet></Outlet>
+		{/* <Header></Header> */}
+		{/* <Outlet></Outlet> */}
 	</>;
 }
 

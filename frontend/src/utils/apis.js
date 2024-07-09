@@ -1,5 +1,4 @@
 import axios from "axios"
-import { reuleaux } from "ldrs";
 
 const apiRoute = 'http://localhost:8000/api'
 
@@ -67,5 +66,17 @@ function deleteVideo(videoID){
 }
 
 export {
-
+    courseRegistration,
+    deleteVideo,
+    getAllCourse,
+    getAllCourseVideos,
+    getCourse,
+    getCourseProfile,
+    getCourseVideo,
+    getProfile,
+    getUser,
+    login,
+    logout,
+    register,
+    uploadVideo, 
 }

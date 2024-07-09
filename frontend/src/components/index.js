@@ -18,6 +18,8 @@ import AuthLayout from "./AuthLayout";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuCheckboxItem,DropdownMenuContent,DropdownMenuGroup,DropdownMenuItem,DropdownMenuLabel,DropdownMenuPortal,DropdownMenuRadioGroup,DropdownMenuRadioItem,DropdownMenuSeparator,DropdownMenuShortcut,DropdownMenuSub,DropdownMenuSubContent,DropdownMenuSubTrigger,DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Separator } from "./ui/separator";
+import { Table,TableBody,TableCaption,TableCell, TableFooter, TableHead, TableHeader, TableRow } from "./ui/table";
+import { Tooltip,TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 export {
     AspectRatio,
     AuthButton,
@@ -63,5 +65,18 @@ export {
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
-    Separator
+    Separator,
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+    Tooltip,
+    TooltipContent, 
+    TooltipProvider, 
+    TooltipTrigger,
+    
 }
