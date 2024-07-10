@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux'
 import { login } from './store/authSlice'
 import { leapfrog } from 'ldrs'
 import { getUser } from './utils/apis'
-import { Course } from './pages'
 function App() {
 	leapfrog.register()
 	const dispatch = useDispatch();
@@ -17,7 +16,6 @@ function App() {
 			if(res.data?.data){
 				dispatch(login(res.data?.data))
 			}
-			console.log(document.cookie)
 		})
 		.catch(err=>{
 			console.log(err)
@@ -25,7 +23,7 @@ function App() {
 		.finally(()=>{
 			setLoading(false);
 		})
-	})
+	}, [])
 	return loading ?
 	<div className='gap-3 fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center'>
 		<div className='flex items-center gap-1 '>
@@ -34,8 +32,8 @@ function App() {
 		</div>
 	</div> :
 	<>
-		 <Header></Header> 
-		 <Outlet></Outlet> 
+		<Header></Header> 
+		<Outlet></Outlet> 
 	</>;
 }
 
