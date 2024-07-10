@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar, AvatarImage, AvatarFallback, Button, DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from ".";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logout as logoutApi} from "@/utils/apis";
 import { logout } from "@/store/authSlice";
 function AuthButton({className}) {
@@ -33,7 +33,9 @@ function AuthButton({className}) {
                 </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='w-32'>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <Link to='/profile'>
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+            </Link>
             <DropdownMenuItem>
                 <Button variant="link" className="p-0 font-normal h-full" onClick={handleLogout}>
                     Logout

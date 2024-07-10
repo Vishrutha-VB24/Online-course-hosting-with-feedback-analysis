@@ -8,6 +8,7 @@ function Home() {
     useEffect(()=>{
         getAllCourse()
             .then(res=>{
+                console.log(res)
                 setCourses(res.data.data);
             })
         .catch(err =>{
@@ -25,9 +26,9 @@ function Home() {
                     courses.length != 0 && 
                     <div className="grid p-8 gap-8 place-items-center" id="card-grid">
                         {
-                            courses.map((course)=>{
+                            courses.map((course)=>(
                                 <CourseCard cardInfo={course} key={course._id}></CourseCard>
-                            })
+                            ))
                         }
                     </div>
                 }

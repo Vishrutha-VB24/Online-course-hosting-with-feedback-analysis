@@ -1,11 +1,9 @@
-import { useSelector } from "react-redux";
-import { AuthButton, Button, Input} from ".";
+
+import { AuthButton, Input} from ".";
 import { useLocation, useNavigate } from "react-router-dom";
 function Header() {
     const loc = useLocation();
-    const titleOnly = !loc.pathname.startsWith("/login") && !loc.pathname.startsWith("/register") 
     const navigate = useNavigate()
-    const status = useSelector(state => state.auth.status)
     return (
         <>
             <header className="h-14 flex  px-8 items-center gap-8 justify-between">

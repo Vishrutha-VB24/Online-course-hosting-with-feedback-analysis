@@ -21,6 +21,7 @@ import { Separator } from "./ui/separator";
 import { Table,TableBody,TableCaption,TableCell, TableFooter, TableHead, TableHeader, TableRow } from "./ui/table";
 import { Tooltip,TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger } from "./ui/dialog";
+import CreateCourseDialog from "./CreatCourseDialog";
 export {
     AspectRatio,
     AuthButton,
@@ -88,5 +89,6 @@ export {
     DialogOverlay,
     DialogPortal,
     DialogTitle,
-    DialogTrigger
+    DialogTrigger,
+    CreateCourseDialog
 }

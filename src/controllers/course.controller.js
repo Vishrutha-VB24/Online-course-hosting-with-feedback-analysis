@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import {ApiResponse } from "../utils/ApiResponse.js"
 import { Register } from "../models/registration.models.js";
 import {Course} from "../models/courses.models.js"
+import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { User } from "../models/user.models.js";
 
 const courseRegistration = asyncHandler(async(req, res) => {
@@ -28,18 +29,31 @@ const createCourse = asyncHandler(async(req, res) => {
     if (!req.instructor) {
         throw new ApiError(401, "Unauthorized instructor")
     }
-    const { name, description, thumbnail } = req.body;
+    const { name, description } = req.body;
 
     if ( 
-        [name, description, thumbnail].some((field) =>
+        [name, description].some((field) =>
         String(field).trim() === "")) {
         throw new ApiError(400, "All fields are required");
     }
+    console.log(req.files)
+    const thumbnailLocalPath = req.files?.thumbnail[0]?.path;
+
+    if(!thumbnailLocalPath){
+        throw new ApiError(400,"thumbnail LocalPath not found")
+    }
+    const thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
+
+    if(!thumbnail){
+        throw new ApiError(500," not uploded successfully!!!")
+    }
+
+    
     const course = await Course.create({
         name,
         description,
-        thumbnail,
-        instructorID: req.instructor._id
+        thumbnail:thumbnail?.url || '',
+        instructorID: req.instructor._id,
     })
 
     const createdCourse = await Course.findById(course._id)

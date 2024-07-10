@@ -64,7 +64,11 @@ function deleteVideo(videoID){
     //should verify as instrucor, check if the instructor is the owner of video and then  delete
 }
 function createCourse(data){
-    return axios.post(`${apiRoute}/course/create`, data)
+    return axios.post(`${apiRoute}/course/create`, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
 }
 
 export {

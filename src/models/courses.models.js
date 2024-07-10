@@ -10,10 +10,6 @@ const courseSchema = new Schema({
         ref:"Instructor",
         required:true,
     },
-    duration:{
-        type: Number,
-        required: true,
-    },
     thumbnail:{
         type:String,
         required:true
@@ -21,13 +17,7 @@ const courseSchema = new Schema({
     description:{
         type:String,
         required:true
-    },  
-    firstVideo:{
-        type:Schema.Types.ObjectId,
-        ref:"Video"
-    }
-
-    
+    },
 },
 {
     timestamps:true

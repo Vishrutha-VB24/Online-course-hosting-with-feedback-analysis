@@ -11,7 +11,7 @@ router.route("/current").get(verifyJWT, (req, res)=>{
     if(req.student){
         return res.status(200).json(200, new ApiResponse(200, req.student, "Succesfully fetched student"))
     }
-    return res.status(404).json("User not found");
+    return res.json(404, "User not found");
 })
 
 export default router

@@ -13,6 +13,6 @@ router.route("/login").post(loginInstructor)
 
 router.route("/logout").post(verifyJWT, logoutInstructor)
 router.route("/refresh-token").post(refreshAccessToken)
-
+router.route("/profile")
 
 export default router 
