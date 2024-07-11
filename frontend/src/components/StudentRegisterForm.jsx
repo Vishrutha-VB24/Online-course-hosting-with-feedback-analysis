@@ -2,11 +2,10 @@ import { dotStream } from 'ldrs';
 import { useForm } from "react-hook-form";
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from ".";
 import { useState } from "react";
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '@/store/authSlice';
 import { useNavigate } from 'react-router-dom';
-
+import { register as registerApi } from '@/utils/apis';
 function StudentRegisterForm() {
     dotStream.register();
     const dispatch = useDispatch()
@@ -15,7 +14,7 @@ function StudentRegisterForm() {
     const [loading, setLoading] = useState(false)
     const registerStudent = async (data) =>{
         setLoading(true);
-        axios.post('http://localhost:8000/api/student/register', data)
+        registerApi(data, 'student')
             .then(res => {
                 console.log(res.data.data)
                 dispatch(login({userData: res.data.data}))

@@ -2,11 +2,10 @@ import { dotStream } from "ldrs";
 import { useForm } from "react-hook-form";
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Label, Textarea, Input } from ".";
 import { useState } from "react";
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '@/store/authSlice';
 import { useNavigate } from 'react-router-dom';
-
+import { register as registerApi} from "@/utils/apis";
 function InstructorRegisterForm() {
     dotStream.register();
     const dispatch = useDispatch()
@@ -15,7 +14,7 @@ function InstructorRegisterForm() {
     const [loading, setLoading] = useState(false)
     const registerInstructor = async (data) =>{
         setLoading(true);
-        axios.post('http://localhost:8000/api/instructor/register', data)
+        registerApi(data, 'instructor')
             .then(res => {
                 console.log(res.data.data)
                 dispatch(login({userData: res.data.data}))

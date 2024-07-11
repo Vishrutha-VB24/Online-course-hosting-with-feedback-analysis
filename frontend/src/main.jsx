@@ -17,7 +17,8 @@ const router = createBrowserRouter(
 			<Route path='register' element={<AuthLayout isAuthRequired={false}><Register/></AuthLayout>}>
 				<Route path='student' element={<StudentRegisterForm/>}></Route>
 				<Route path='instructor' element={<InstructorRegisterForm/>}></Route>
-			</Route> 
+			</Route>
+			<Route path='profile' element={<AuthLayout isAuthRequired={true}></AuthLayout>}></Route>
 		</Route>
 	)
 )

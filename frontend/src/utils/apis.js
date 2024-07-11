@@ -1,7 +1,6 @@
 import axios from "axios"
 
-const apiRoute = 'http://localhost:8000/api'
-
+const apiRoute = '/api'
 function login(data, role){
     return axios.post(`${apiRoute}/${role}/login`, data);
 }
@@ -10,7 +9,7 @@ function register(data, role){
 }
 
 function getUser(){
-    return axios.get(`${apiRoute}/user/current`, {withCredentials: true} );
+    return axios.get(`${apiRoute}/user/current`, {withCredentials: true, withXSRFToken: true }, );
 }
 function logout(role){
     return axios.get(`${apiRoute}/${role}/logout`);
@@ -50,8 +49,8 @@ function getCourseVideo(courseID, videoID){
 }
 
 
-function getCourseProfile(courseID){
-    return axios.get(`${apiRoute}/course/${id}/profile`)
+function getCourseProfile(courseId){
+    return axios.get(`${apiRoute}/course/${courseId}/profile`)
     // should return a course object with an array of all the videos under that course
 }
 
@@ -63,6 +62,9 @@ function uploadVideo(courseID){
 function deleteVideo(videoID){
     return axios.delete(`${apiRoute}/video/delete/${videoID}`)
     //should verify as instrucor, check if the instructor is the owner of video and then  delete
+}
+function createCourse(data){
+    return axios.post(`${apiRoute}/course/create`, data)
 }
 
 export {
@@ -78,5 +80,6 @@ export {
     login,
     logout,
     register,
-    uploadVideo, 
+    uploadVideo,
+    createCourse
 }

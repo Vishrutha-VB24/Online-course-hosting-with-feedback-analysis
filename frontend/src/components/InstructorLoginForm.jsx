@@ -2,18 +2,30 @@ import { dotStream } from 'ldrs';
 import { useForm } from "react-hook-form";
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from ".";
 import { useState } from "react";
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
+import { login as loginApi } from '@/utils/apis';
+import { login as authLogin } from '@/store/authSlice';
 function InstructorLoginForm() {
     dotStream.register();
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {register, handleSubmit, formState : {errors}} = useForm();
     const [loading, setLoading] = useState(false)
-    const login = () => {
-        setLoading(true)
+    const login = (data) => {
+        setLoading(true);
+        loginApi(data, 'student')
+            .then(res => {
+                const { student} = res.data.data;
+                dispatch(authLogin({userData: student}))
+                navigate("/")
+            })
+            .catch(error => {
+                console.log(error);
+            })
+            .finally(()=>{
+                setLoading(false);
+            })
     }
     return (
         <form onSubmit={handleSubmit(login)}>

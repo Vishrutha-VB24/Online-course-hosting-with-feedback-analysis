@@ -3,7 +3,6 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, Label, Input
 import { useNavigate } from "react-router-dom";
 import {  useState } from "react";
 import { dotStream } from "ldrs";
-import axios from "axios";
 import { useDispatch, } from "react-redux";
 import { login as authLogin} from "@/store/authSlice";
 import {getAllCourse, login as loginApi} from '../utils/apis.js'
@@ -18,9 +17,9 @@ function StudentLoginForm() {
         setLoading(true);
         loginApi(data, 'student')
             .then(res => {
-                console.log(res)
-                // dispatch(authLogin({userData: res.data.data.student}))
-                // navigate("/")
+                const { student} = res.data.data;
+                dispatch(authLogin({userData: student}))
+                navigate("/")
                 getAllCourse()
             })
             .catch(error => {

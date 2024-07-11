@@ -16,7 +16,7 @@ router.route("/register").post(
 router.route("/login").post(loginStudent)
 
 //secured routes
-router.route("/logout").post(verifyJWT, logoutStudent)
+router.route("/logout").get(verifyJWT, logoutStudent)
 router.route("/student-refresh-token").post(refreshAccessToken)
 router.route("/current").get(verifyJWT, getCurrentStudent)
 router.route("/cookie").get(getCookie)

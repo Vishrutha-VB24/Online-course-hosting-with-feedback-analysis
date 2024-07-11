@@ -22,6 +22,10 @@ const courseSchema = new Schema({
         type:String,
         required:true
     },  
+    firstVideo:{
+        type:Schema.Types.ObjectId,
+        ref:"Video"
+    }
 
     
 },
