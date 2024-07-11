@@ -1,4 +1,4 @@
-import {Router} from 'express'
+import { Router } from 'express'
 import {getCurrentStudent, loginStudent, logoutStudent, registerStudent, refreshAccessToken } from '../controllers/student.controller.js'
 import {upload} from "../middlewares/multer.middlewares.js"
 import { getCookie } from '../controllers/student.controller.js'

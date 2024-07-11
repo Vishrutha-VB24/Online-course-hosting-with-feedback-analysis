@@ -7,7 +7,7 @@ const courseSchema = new Schema({
     
     instructorID:{
         type: Schema.Types.ObjectId,
-        ref:"Instructor",
+        ref:"User",
         required:true,
     },
     thumbnail:{

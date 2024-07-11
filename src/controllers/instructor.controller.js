@@ -3,12 +3,14 @@ import {ApiError} from "../utils/ApiError.js"
 import { User } from "../models/user.models.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
+import { Course } from "../models/courses.models.js";
+import { Video } from "../models/videos.models.js";
 
 const generateAccessAndRefreshTokens = async(instructorID) => {
     try {
-        const instructor = await User.findById(instructorId)
-        const accessToken = instructor.generateAccessToken
-        const refreshToken =  instructor.generateRefreshToken
+        const instructor = await User.findById(instructorID)
+        const accessToken = instructor.generateAccessToken()
+        const refreshToken =  instructor.generateRefreshToken()
 
         instructor.refreshToken = refreshToken
         await instructor.save({validateBeforeSave: false})
@@ -22,10 +24,6 @@ const generateAccessAndRefreshTokens = async(instructorID) => {
 }
 
 const registerInstructor = asyncHandler( async (req, res) => {
-    // res.status(200).json({
-    //     message: "ok"
-    // })
-
     const {fullname, username, email, password, phone, bio} = req.body
     console.log("email: ", email);
 
@@ -53,7 +51,7 @@ const registerInstructor = asyncHandler( async (req, res) => {
         role:"instructor",
         bio
     })
-
+    console.log("hi")
     const createdInstructor = await User.findById(user._id).select(
         "-password -refreshToken"
     )
@@ -70,20 +68,21 @@ const registerInstructor = asyncHandler( async (req, res) => {
 
 const loginInstructor = asyncHandler(async (req, res) => {
 
-    const {email, username, password} = req.body
-    if(!username || !email) {
+    const { username, password} = req.body
+    if(!username) {
         throw new ApiError(400, "username or password is required")
 
     }
-
-    const instructor = await User.findOne({
-        $or: [{username}, {email}]
-    })
+    const istss = await User.find()
+    console.log(istss)
+    console.log(username)
+    console.log(password)
+    const instructor = await User.findOne({userName: username})
 
     if(!instructor){
         throw new ApiError(400, "User does not exist")
     }
-
+    
     const isPasswordValid = await instructor.isPasswordCorrect(password)
 
     if(!isPasswordValid) {
@@ -91,8 +90,9 @@ const loginInstructor = asyncHandler(async (req, res) => {
     }
 
     const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(instructor._id)
-
-    const loggedInInstructor = await User.findById(instructorId).select("-password -refreshToken")
+    console.log(accessToken)
+    console.log(refreshAccessToken)
+    const loggedInInstructor = await User.findById(instructor._id).select("-password -refreshToken")
 
     const options = {
         httpOnly: true,
@@ -117,20 +117,16 @@ const loginInstructor = asyncHandler(async (req, res) => {
 })
 
 const logoutInstructor = asyncHandler(async(req, res) => {
-    await Instructor.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
         req.instructor._id,
         {
             $set: {
                 refreshToken: undefined
             }
         },
-        {
-            new: true
-        }
     )  
     const options = {
         httpOnly: true,
-        secure: true
     }
 
     return res
@@ -187,19 +183,44 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 })
 
-const getCurrentInstructor = asyncHandler(async(req, res) => {
-    return res
-    .status(200)
-    .json(200, req.user, "current user fetched successfully")
+
+
+const CourseVideos = asyncHandler(async (req, res)=>{
+    if(!req.instructor){
+        throw new ApiError(401, "Not Authorized")
+    }
+    const {courseID} = req.params;
+
+    const course = await Course.findById(courseID).populate('instructorID');
+    if(!course){
+        throw new ApiError(404, "not found")
+    }
+
+    const videos = await Video.find({ courseID });
+
+    return res.status(200).json(new ApiResponse(200, videos, "Course Video fetched succesfully"))
+
 
 })
 
+const Courses = asyncHandler(async(req, res)=>{
+    if(!req.instructor){
+        throw new ApiError(404, "Not Authorized");
+    }
+    const courses = await Course.find({ instructorID: req.instructor._id} );
 
-
+    if(!courses){
+        return res.status(500).json(new ApiResponse(500, {}, "something went wrong"))
+    }
+    return res.status(200).json(new ApiResponse(200, courses, "Instructor courses fetched succesfully"))
+})
 
 export {
     registerInstructor,
     loginInstructor,
     logoutInstructor,
-    refreshAccessToken
+    refreshAccessToken,
+    CourseVideos,
+    Courses
+
 }

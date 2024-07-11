@@ -15,6 +15,12 @@ function logout(role){
     return axios.get(`${apiRoute}/${role}/logout`);
 }
 
+function instructorCourses(){
+    return axios.get(`${apiRoute}/instructor/courses`)
+}
+function instructorCourseVideos(courseId){
+    return axios.get(`${apiRoute}/instructor/course/allvideo/${courseId}`)
+}
 
 function getProfile(role){
     return axios.get(`${apiRoute}/${role}/profile`)
@@ -30,7 +36,7 @@ function getAllCourse(){
 }
 
 function getCourse(courseID){
-    return axios.get(`${apiRoute}/course/${courseID}`);
+    return axios.get(`${apiRoute}/course/get/${courseID}`);
     //should return a course object of reuested is and with variable indicating the user has register to that course
 }
 
@@ -71,6 +77,10 @@ function createCourse(data){
     })
 }
 
+function getCourseInfo(courseID){
+    return axios.get(`${apiRoute}/course/info/${courseID}`);
+}
+
 export {
     courseRegistration,
     deleteVideo,
@@ -85,5 +95,8 @@ export {
     logout,
     register,
     uploadVideo,
-    createCourse
+    createCourse,
+    instructorCourseVideos,
+    instructorCourses,
+    getCourseInfo
 }

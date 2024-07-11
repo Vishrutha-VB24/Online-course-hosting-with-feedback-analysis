@@ -22,6 +22,9 @@ import { Table,TableBody,TableCaption,TableCell, TableFooter, TableHead, TableHe
 import { Tooltip,TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger } from "./ui/dialog";
 import CreateCourseDialog from "./CreatCourseDialog";
+import InstructorProfile from "./InstructorProfile";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "./ui/accordion";
+import AddVideoButton from "./AddVideoButton";
 export {
     AspectRatio,
     AuthButton,
@@ -90,5 +93,11 @@ export {
     DialogPortal,
     DialogTitle,
     DialogTrigger,
-    CreateCourseDialog
+    CreateCourseDialog,
+    InstructorProfile, 
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+    AddVideoButton
 }

@@ -6,7 +6,7 @@ import { logout as logoutApi} from "@/utils/apis";
 import { logout } from "@/store/authSlice";
 function AuthButton({className}) {
     const authStatus = useSelector(state => state.auth.status)
-    const userName = useSelector(state => state.auth.userData?.userName) || ''
+    const userName = useSelector(state => state.auth.userData?.userName) || 'A'
     const navigate = useNavigate()
     const role = useSelector(state => state.auth.role)
     const user = useSelector(state => state.auth.useData) 
@@ -17,6 +17,7 @@ function AuthButton({className}) {
         logoutApi(role)
         .then(()=>{
             dispatch(logout())
+            navigate('/')
         })
         .catch(err =>{
             console.log(err)

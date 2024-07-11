@@ -1,8 +1,7 @@
 import { Router } from "express";
-import { courseRegistration,createCourse,deleteCourse,allCourses } from "../controllers/course.controller.js";
+import { courseRegistration,createCourse,deleteCourse,allCourses, courseInfo } from "../controllers/course.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middlewares.js"
-
 const router = Router()
 
   
@@ -19,8 +18,8 @@ router.route("/create").post(
     ]),
     createCourse
 )
-
-router.route("/get/:id").get()
+router.route("/info/:id").get(verifyJWT, courseInfo)
+router.route("/get/:id").get(course)
 router.route("/all").get(allCourses)
 
 

@@ -17,8 +17,8 @@ const feedbackSchema = new Schema({
         required: true
     },
     label: {
-        type: String,
-        enum: ['positive', 'negative', 'neutral']
+        type: Number,
+        enum: [1, 2, 3, 4, 5]
     }
 }, {timestamps: true})
 

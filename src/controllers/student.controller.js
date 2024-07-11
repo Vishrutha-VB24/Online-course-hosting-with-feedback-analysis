@@ -96,9 +96,7 @@ const logoutStudent = asyncHandler(async(req, res) => {
                     refreshToken: undefined
                }
           },
-          {
-               new: true
-          }
+         
      )
      
      const options = {

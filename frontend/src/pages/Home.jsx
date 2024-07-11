@@ -1,9 +1,7 @@
-import { Button, CourseCard, ScrollArea } from "@/components";
+import { CourseCard, ScrollArea } from "@/components";
 import { getAllCourse } from "@/utils/apis";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 function Home() {
-    const navigate = useNavigate()
     const [courses, setCourses] = useState([]);
     useEffect(()=>{
         getAllCourse()

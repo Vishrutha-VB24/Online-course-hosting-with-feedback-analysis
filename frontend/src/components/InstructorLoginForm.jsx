@@ -14,10 +14,11 @@ function InstructorLoginForm() {
     const [loading, setLoading] = useState(false)
     const login = (data) => {
         setLoading(true);
-        loginApi(data, 'student')
+        loginApi(data, 'instructor')
             .then(res => {
                 const { instructor } = res.data.data;
-                dispatch(authLogin({userData: instructor}))
+                console.log(instructor)
+                dispatch(authLogin(instructor))
                 navigate("/")
             })
             .catch(error => {

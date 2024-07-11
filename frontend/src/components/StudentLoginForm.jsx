@@ -18,7 +18,7 @@ function StudentLoginForm() {
         loginApi(data, 'student')
             .then(res => {
                 const { student} = res.data.data;
-                dispatch(authLogin({userData: student}))
+                dispatch(authLogin(student))
                 navigate("/")
                 getAllCourse()
             })

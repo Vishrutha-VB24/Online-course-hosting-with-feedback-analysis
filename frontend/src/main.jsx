@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter,  createRoutesFromElements } from 'react-router-dom'
-import {Home, Course, Login, Register, VideoPlayer, Profile} from './pages/index.js'
+import {Home, Course, Login, Register, VideoPlayer, Profile, CourseInfo} from './pages/index.js'
 import { Provider } from 'react-redux'
 import { store } from './store/store.js'
 import { InstructorRegisterForm, StudentRegisterForm, AuthLayout } from './components/index.js'
@@ -19,6 +19,7 @@ const router = createBrowserRouter(
 				<Route path='instructor' element={<InstructorRegisterForm/>}></Route>
 			</Route>
 			<Route path='profile' element={<AuthLayout isAuthRequired={true}><Profile></Profile></AuthLayout>}></Route>
+			<Route path='courseInfo/:courseID' element={<AuthLayout isAuthRequired={true}><CourseInfo></CourseInfo></AuthLayout>}></Route>
 		</Route>
 	)
 )

@@ -5,6 +5,7 @@ import { Register } from "../models/registration.models.js";
 import {Course} from "../models/courses.models.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { User } from "../models/user.models.js";
+import { Video } from "../models/videos.models.js";
 
 const courseRegistration = asyncHandler(async(req, res) => {
     if (!req.student) {
@@ -87,15 +88,31 @@ const deleteCourse = asyncHandler(async(req, res) => {
 
 const allCourses = asyncHandler(async(req,res) => {
     const courses = await Course.find();
-    console.log("HI")
-    console.log(courses)
     return res.status(200).json(new ApiResponse(200,courses,"ALL Courses fechted successflly"));
 })
 
 
 
+const courseInfo = asyncHandler(async (req, res)=>{
+    if(!req.instructor){
+        throw new ApiError(401, "Not an instructor")
+    }
+    const {id: courseID} = req.params;
 
 
+    const course = await Course.findById(courseID);
+    console.log(course)
+    if(!course){
+        throw new ApiError(404, "course not found")
+    }
+
+    const videos = await Video.find({ courseID: course._id });
+
+    return res.status(200).json(new ApiResponse(200, {course, ...{videos}}, "Course Info fetching Succefully"))
+
+
+
+})
 
 
 
@@ -107,5 +124,7 @@ export{
     courseRegistration,
     createCourse,
     deleteCourse,
-    allCourses
+    allCourses,
+    courseInfo
+    
 }
