@@ -3,10 +3,11 @@ import {ApiError} from "../utils/ApiError.js"
 import { User } from "../models/user.models.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
+import {Course} from "../models/courses.models.js"
 
 const generateAccessAndRefreshTokens = async(instructorID) => {
     try {
-        const instructor = await User.findById(instructorId)
+        const instructor = await User.findById(instructorID)
         const accessToken = instructor.generateAccessToken
         const refreshToken =  instructor.generateRefreshToken
 
@@ -178,13 +179,26 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 })
 
-const getCurrentInstructor = asyncHandler(async(req, res) => {
-    return res
-    .status(200)
-    .json(new ApiResponse(200, req.user, "Instructor fetched successfully"))
+// const getCurrentInstructor = asyncHandler(async(req, res) => {
+//     return res
+//     .status(200)
+//     .json(new ApiResponse(200, req.user, "Instructor fetched successfully"))
 
-})
-
+// })
+const getInstructorProfile = asyncHandler(async (req, res) => {
+    const instructorId = req.body.id; 
+  
+    const instructor = await User.findById(instructorId).select('-password -refreshToken');
+    if (!instructor || instructor.role !== 'instructor') {
+      throw new ApiError(404, 'Instructor not found');
+    }
+  
+    const courses = await Course.find({ instructorId });
+  
+    return res.status(200).json(
+      new ApiResponse(200, { instructor, courses }, 'Instructor and their courses fetched successfully')
+    );
+  });
 
 
 
@@ -192,7 +206,8 @@ const getCurrentInstructor = asyncHandler(async(req, res) => {
 export {
     registerInstructor,
     loginInstructor,
-    getCurrentInstructor,
+    // getCurrentInstructor,
+    getInstructorProfile,
     logoutInstructor,
     refreshAccessToken
 }
