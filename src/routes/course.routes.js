@@ -19,7 +19,7 @@ router.route("/create").post(
     createCourse
 )
 router.route("/info/:id").get(verifyJWT, courseInfo)
-router.route("/get/:id").get(course)
+// router.route("/get/:id").get(course)
 router.route("/all").get(allCourses)
 
 

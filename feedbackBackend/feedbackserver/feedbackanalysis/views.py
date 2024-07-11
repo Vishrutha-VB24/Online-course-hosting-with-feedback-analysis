@@ -6,9 +6,7 @@ from rest_framework import status
 from .serializers import ReviewSerializer
 import pickle
 import os
-
-
-
+from django.views.decorators.csrf import csrf_exempt;
 
 
 
@@ -36,13 +34,14 @@ class ReviewAPIView(APIView):
     def post(self, request):
         serializer = ReviewSerializer(data=request.data)
         if serializer.is_valid():
-            # Process the data here
             review = serializer.validated_data['review']
-            rating = serializer.validated_data['rating']
+    
+            predicted_rating = predict_rating(review)
+            
+            response_data = serializer.data
+            response_data['predicted_rating'] = predicted_rating
 
-            print(predict_rating(review))
-            print(rating)
-            # For example, you can save the data to the database or perform some analysis
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            print(predicted_rating)
+        
+            return Response(response_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-

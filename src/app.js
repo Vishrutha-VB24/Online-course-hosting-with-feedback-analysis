@@ -6,6 +6,7 @@ import instructorRouter from './routes/instructor.routes.js'
 import studentRouter from './routes/student.routes.js'
 import courseRouter from './routes/course.routes.js'
 import userRouter from './routes/user.routes.js'
+import feedBackRouter from './routes/feedback.routes.js'
 const app = express()
 
 const corsOptions = {
@@ -30,6 +31,7 @@ app.use('/api/videos',videosRouter)
 app.use('/api/instructor',instructorRouter)
 app.use("/api/student",studentRouter)
 app.use("/api/user", userRouter)
+app.use('/api/feedback',feedBackRouter)
 
 
 export{ app }
