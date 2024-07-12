@@ -10,31 +10,28 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 
 
-const uploadVideo = asyncHandler(async(req,res,next)=>{
-    
+const uploadVideo = asyncHandler(async(req,res)=>{
     if(!req.instructor){
         throw new ApiError(401,"Invalid Instructor")
     }
     const {course_id,title,description} = req.body;
-    if(
-        [course_id,title,description].some((field)=>field?.trim()==="")
-    )
-    
-    {
-        throw new ApiError(404,"All fields are required")
+    const {courseID} = req.params
+    if([title,description, courseID].some((field)=>field?.trim()==="")){
+        throw new ApiError(400, "Fields missing")
     }
-    const _id = req.instructor_id;
-    const course = await Course.findOne({
-        $and:[{course_id},{_id}]
     
-    })
+    const _id = req.instructor_id;
+    const course = await Course.findById(courseID);
     if(!course){
         throw new ApiError(404,"course not found")
     }
-
-
-    const videoLocalPath = req.files?.video[0]?.path;
-
+    console.log(course.instructorID)
+    console.log(req.instructor._id)
+    if(course.instructorID.toHexString() != req.instructor._id.toHexString()){
+        throw new ApiError(404, 'Not authorized')
+    }
+    console.log(req.files)
+    const videoLocalPath = req.files?.videoFile[0]?.path;
     if(!videoLocalPath){
         throw new ApiError(400,"videoLocalPath not found")
     }
@@ -48,7 +45,7 @@ const uploadVideo = asyncHandler(async(req,res,next)=>{
     const thumbnailLocalPath = req.files?.thumbnail[0]?.path;
 
     if(!thumbnailLocalPath){
-        throw new ApiError(400,"videoLocalPath not found")
+        throw new ApiError(400,"ThumbnailLocalPath not found")
     }
 
     const thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
@@ -61,12 +58,12 @@ const uploadVideo = asyncHandler(async(req,res,next)=>{
 
 
     const videoOBJ = await Video.create({
-        videoFile:video.url,
-        thumbnail:thumbnail.url,
-        title:title,
-        description:description,
-        duration:video.duration,
-        course_id:course._id
+        videoFile: video.url,
+        thumbnail: thumbnail.url,
+        title: title,
+        description: description,
+        duration: video.duration,
+        courseID: course._id
     })
     const createdVideo = await Video.findById(videoOBJ._id)
     
@@ -80,8 +77,6 @@ const uploadVideo = asyncHandler(async(req,res,next)=>{
 
 })
 
-//get video function
-//1.verfy student object is there in the requst. 2.videoid correct or not 3.exraact coures id from videoObjet check if there is an object in regesration model student id and courseid 5.if present video url,description
 const getVideo = asyncHandler(async (req, res, next) => {
     if (!req.student) {
         throw new ApiError(401, "Invalid Student");

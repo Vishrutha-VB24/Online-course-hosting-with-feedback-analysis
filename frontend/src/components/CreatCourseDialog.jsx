@@ -1,4 +1,4 @@
-import { Button, DialogFooter, Label, Input, Dialog, DialogTrigger, DialogHeader, DialogTitle, DialogContent, Textarea, Table, TableHeader, TableRow, TableHead} from "@/components";
+import { Button, DialogFooter, Label, Input, Dialog, DialogTrigger, DialogHeader, DialogTitle, DialogContent, Textarea} from "@/components";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { dotStream } from "ldrs";
@@ -28,7 +28,7 @@ export default function CreateCourseDialog(){
         <>
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Create Course</Button>
+                <Button variant="ghost" className="p-2 h-full">Create Course</Button>
             </DialogTrigger>
             <DialogContent >
             <form onSubmit={handleSubmit(createCourse)} className="">

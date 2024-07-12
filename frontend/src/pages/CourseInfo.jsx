@@ -2,7 +2,7 @@ import { AddVideoButton, Button, ScrollArea, Separator, Table, TableBody, TableC
 import { getCourseInfo } from "@/utils/apis";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 function CourseInfo() {
     const {courseID} = useParams()
     const [courseInfo, setCourseInfo] = useState()
@@ -23,17 +23,21 @@ function CourseInfo() {
             <h1 className="text-2xl mb-2">{courseInfo.course.name.toUpperCase()}</h1>
             <p>{courseInfo.course.description}</p>
             <Separator className="my-4"/>
-            <div className="flex justify-end"><AddVideoButton courseId={courseInfo.course._id} courseName={courseInfo.course.name}></AddVideoButton></div>
-            <h1 className="text-xl">Total Videos ({courseInfo.videos.length})</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-xl">Total Videos ({courseInfo.videos.length})</h1>
+                <div className="flex justify-end"><AddVideoButton courseId={courseInfo.course._id} courseName={courseInfo.course.name}></AddVideoButton></div>
+            </div>
             <Table>
                 <TableBody>
                     {courseInfo.videos.map(video=>(
                         <TableRow key={video._id}>
                             <TableCell>
-                                {video.title}
+                                <Link to="">
+                                    {video.title}
+                                </Link>
                             </TableCell>
                             <TableCell>
-                                <div className="felx justify-end">
+                                <div className="flex justify-end">
                                     <Button size="ghost" className="bg-transparent hover:bg-red-300 p-1">
                                         <TrashIcon color="black"></TrashIcon>
                                     </Button>

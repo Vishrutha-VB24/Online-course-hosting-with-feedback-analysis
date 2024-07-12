@@ -60,13 +60,17 @@ function getCourseProfile(courseId){
     // should return a course object with an array of all the videos under that course
 }
 
-function uploadVideo(courseID){
-    return axios.post(`${apiRoute}/video/upload/${courseID}`)
+function uploadVideo(data, courseID){
+    return axios.post(`${apiRoute}/videos/upload/${courseID}`,data,{
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
     // should verify as instructor, check if the course belong to the instructor and then upload to cloudinary and create video object
 }
 
 function deleteVideo(videoID){
-    return axios.delete(`${apiRoute}/video/delete/${videoID}`)
+    return axios.delete(`${apiRoute}/videos/delete/${videoID}`)
     //should verify as instrucor, check if the instructor is the owner of video and then  delete
 }
 function createCourse(data){

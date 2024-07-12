@@ -1,25 +1,31 @@
-import { Button, DialogFooter, Label, Input, Dialog, DialogTrigger, DialogHeader, DialogTitle, DialogContent, Textarea, Table, TableHeader, TableRow, TableHead} from "@/components";
+/* eslint-disable react/prop-types */
+import { Button, DialogFooter, Label, Input, Dialog, DialogTrigger, DialogHeader, DialogTitle, DialogContent, Textarea} from "@/components";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { dotStream } from "ldrs";
-import { createCourse as createCourseApi, uploadVideo } from "@/utils/apis";
+import { uploadVideo } from "@/utils/apis";
 export default function AddVideoButton({courseId, courseName}){
     dotStream.register();
     const {register , handleSubmit, formState: {errors}} = useForm();
     const [loading, setLoading] = useState(false);
     const createVideo = (data)=>{
+        console.log(data);
         const formData = new FormData();
         formData.append('title', data.name);
         formData.append('thumbnail', data.thumbnail[0]);
         formData.append('description', data.description);
-        formData.append('videoFile', data.video[0])
-        formData.append('courseID', courseId)
+        formData.append('videoFile', data.video[0]);
+        for (const pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
         setLoading(true);
-        uploadVideo(formData)
+        uploadVideo(formData, courseId)
         .then(res=>{
+            console.log(res)
             alert("course created succesfully");
         })
         .catch(err=>{
+            console.log(err)
             alert("something went wrong");
         })
         .finally(()=>{

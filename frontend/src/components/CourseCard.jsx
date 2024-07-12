@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription,  CardHeader } from ".";
-
+import { useParams } from "react-router-dom";
 function CourseCard({cardInfo}) {
+    const {courseId} = useParams;
     console.log(cardInfo)
-    const navigate = useNavigate()
     return (
         <Link to={`course/${cardInfo._id}`}>
             <Card className="w-80 cursor-pointer hover:scale-105 hover:shadow-cyan-200  hover:shadow-lg duration-500 " >
