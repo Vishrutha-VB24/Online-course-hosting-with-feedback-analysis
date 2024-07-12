@@ -40,6 +40,7 @@ const createCourse = asyncHandler(async(req, res) => {
     console.log(req.files)
     const thumbnailLocalPath = req.files?.thumbnail[0]?.path;
 
+    console.log(thumbnailLocalPath)
     if(!thumbnailLocalPath){
         throw new ApiError(400,"thumbnail LocalPath not found")
     }
@@ -103,7 +104,7 @@ const courseInfo = asyncHandler(async (req, res)=>{
     const course = await Course.findById(courseID);
     console.log(course)
     if(!course){
-        throw new ApiError(404, "course not found")
+        throw new ApiError(404, "course not found");
     }
 
     const videos = await Video.find({ courseID: course._id });

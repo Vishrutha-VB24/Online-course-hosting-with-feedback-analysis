@@ -1,5 +1,5 @@
-import { Button, Card, CardDescription, CardHeader, CardTitle, ScrollArea, Separator, Table, TableBody, TableCell, TableRow, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components";
-import { getAllCourseVideos, getCourse } from "@/utils/apis";
+import { Button, Card, CardDescription, CardHeader, CardTitle, ScrollArea, Separator, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components";
+import { getCourse } from "@/utils/apis";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 function Course() {
     dotStream.register()
-    const imgUrl = 'https://imgs.search.brave.com/GOb601KJW33yaA6rYKboqkbhCtn5c0DM0cN7S7x73oI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zbHAt/c3RhdGljcy5hc3Rv/Y2tjZG4ubmV0L3N0/YXRpY19hc3NldHMv/c3RhZ2luZy8yM3N1/bW1lci9waG90b3Mv/c3Rvcnl0ZWxsaW5n/LWJsYWRlcy9TdG9y/eXRlbGxpbmdfNTUy/NDE2ODI3LmpwZz93/aWR0aD01ODAmZm9y/bWF0PXdlYnA'
     const {courseId} = useParams()
     const [videos, setVideos] = useState([])
     const [course, setCourse] = useState({})
@@ -39,9 +38,8 @@ function Course() {
         <main className="flex flex-col items-start p-8 gap-4 ">
             {
                 course && 
-                <div className="w-full max-h-96 grid grid-cols-3  rounded-md  box-content">
-                    <div className="col-span-1 flex items-center">
-                        <img src={course.thumbnail} alt="" className="rounded-xl w-full h-auto"/>
+                <div className="w-full h-[40vh] grid grid-cols-3  rounded-md  box-content">
+                    <div className="col-span-1 flex items-center rounded-xl" style={{backgroundImage: `url(${course.thumbnail})`, backgroundSize: 'cover'}}>
                     </div>
                     <div className="col-span-2 px-6 flex flex-col gap-4 items-start justify-evenly">
                         <div className="flex flex-col gap-4">
@@ -64,9 +62,9 @@ function Course() {
                 <ul className=" w-full grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] gap-6">
                     {
                         videos.map((video, i)=>(
-                        <Link key={i} disable={registerCourses.includes(courseId)}>
+                        <Link key={i} disable={registerCourses.includes(courseId)} to={`/course/${courseId}/video/${video._id}`}>
                             <li className="w-full flex justify-center">
-                                <Card className="bg-gradient-to-tr from-blue-200 to-cyan-200 relative w-80">
+                                <Card className="bg-gradient-to-tr from-blue-200 to-cyan-200 relative w-80" style={{backgroundImage: video.thumbnail}}>
                                     <div className="absolute bg-gradient-to-br from-slate-500 to-transparent p-1 rounded-ee-sm  bottom-0 right-0 text-white ">20:45</div>
                                     <CardHeader>
                                         <CardHeader>
@@ -88,6 +86,9 @@ function Course() {
                         </Link>
                         ))
                     }
+                    <li></li>
+                    <li></li>
+                    <li></li>
                 </ul>
             </div>
         </main>

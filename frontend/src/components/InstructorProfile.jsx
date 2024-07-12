@@ -1,9 +1,8 @@
-import { Table, TableHeader, TableRow, TableHead, CreateCourseDialog, Accordion, AccordionItem, AccordionTrigger, AccordionContent, Button, AddVideoButton, Separator, TableBody, TableCell} from "@/components";
+import { Table,  TableRow, Separator, TableBody, TableCell, CreateCourseDialog} from "@/components";
 import { dotStream } from "ldrs";
 import { useEffect, useState } from "react";
-import { deleteVideo, instructorCourseVideos, instructorCourses } from "@/utils/apis";
+import {  instructorCourses } from "@/utils/apis";
 import { Link } from "react-router-dom";
-import { TrashIcon } from "@radix-ui/react-icons";
 import { useSelector } from "react-redux";
 
 function InstructorProfile() {
@@ -31,8 +30,10 @@ function InstructorProfile() {
                 {bio && (<p> {bio}</p>)}
             </div>
             <Separator></Separator>
-
-            <h1 className="font-semibold text-xl mt-6">Your Courses ({courses.length})</h1>
+            <div className="flex justify-between items-center mt-6">
+                <h1 className="font-semibold text-xl">Your Courses ({courses.length})</h1>
+                <CreateCourseDialog/>
+            </div>
             <Table className="mt-6">
                 <TableBody>
                     {

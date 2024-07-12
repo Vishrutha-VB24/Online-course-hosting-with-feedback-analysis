@@ -2,7 +2,7 @@ import { AddVideoButton, Button, ScrollArea, Separator, Table, TableBody, TableC
 import { getCourseInfo } from "@/utils/apis";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 function CourseInfo() {
     const {courseID} = useParams()
     const [courseInfo, setCourseInfo] = useState()
@@ -32,10 +32,12 @@ function CourseInfo() {
                     {courseInfo.videos.map(video=>(
                         <TableRow key={video._id}>
                             <TableCell>
-                                {video.title}
+                                <Link to="">
+                                    {video.title}
+                                </Link>
                             </TableCell>
                             <TableCell>
-                                <div className="felx justify-end">
+                                <div className="flex justify-end">
                                     <Button size="ghost" className="bg-transparent hover:bg-red-300 p-1">
                                         <TrashIcon color="black"></TrashIcon>
                                     </Button>

@@ -58,12 +58,12 @@ const uploadVideo = asyncHandler(async(req,res)=>{
 
 
     const videoOBJ = await Video.create({
-        videoFile:video.url,
-        thumbnail:thumbnail.url,
-        title:title,
-        description:description,
-        duration:video.duration,
-        course_id:course._id
+        videoFile: video.url,
+        thumbnail: thumbnail.url,
+        title: title,
+        description: description,
+        duration: video.duration,
+        courseID: course._id
     })
     const createdVideo = await Video.findById(videoOBJ._id)
     

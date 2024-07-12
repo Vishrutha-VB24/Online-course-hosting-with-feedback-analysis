@@ -61,7 +61,11 @@ function getCourseProfile(courseId){
 }
 
 function uploadVideo(data, courseID){
-    return axios.post(`${apiRoute}/videos/upload/${courseID}`)
+    return axios.post(`${apiRoute}/videos/upload/${courseID}`,data,{
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
     // should verify as instructor, check if the course belong to the instructor and then upload to cloudinary and create video object
 }
 

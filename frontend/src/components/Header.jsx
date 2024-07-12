@@ -1,9 +1,17 @@
 
+import { useDispatch, useSelector } from "react-redux";
 import { AuthButton, Input} from ".";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDebugValue } from "react";
+import { setQuery } from "@/store/searchSlice";
 function Header() {
     const loc = useLocation();
     const navigate = useNavigate()
+    const query  = useSelector(state => state.search.query);
+    const dispatch = useDispatch()
+    const handleQuery  = (e)=>{
+        dispatch(setQuery(e.target.value))
+    }
     return (
         <>
             <header className="h-14 flex  px-8 items-center gap-8 justify-between">
@@ -11,7 +19,7 @@ function Header() {
             {
                 loc.pathname === '/' && 
                 <div className="grow  items-center hidden sm:flex max-w-[50vw]">
-                    <Input className="rounded-full pl-8 text-lg" placeholder="Search Courses" ></Input>
+                    <Input className="rounded-full pl-8 text-lg" placeholder="Search Courses" onChange={handleQuery} value={query}></Input>
                 </div>
             }
             {

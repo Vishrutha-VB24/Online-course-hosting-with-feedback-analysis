@@ -1,4 +1,3 @@
-
 function VideoPlayer() {
     return (
         <div>
