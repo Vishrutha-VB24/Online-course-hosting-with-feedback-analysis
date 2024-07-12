@@ -15,11 +15,13 @@ export default function AddVideoButton({courseId, courseName}){
         formData.append('videoFile', data.video[0])
         formData.append('courseID', courseId)
         setLoading(true);
-        uploadVideo(formData)
+        uploadVideo(formData, courseId)
         .then(res=>{
+            console.log(res)
             alert("course created succesfully");
         })
         .catch(err=>{
+            console.log(err)
             alert("something went wrong");
         })
         .finally(()=>{

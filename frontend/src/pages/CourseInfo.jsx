@@ -23,8 +23,10 @@ function CourseInfo() {
             <h1 className="text-2xl mb-2">{courseInfo.course.name.toUpperCase()}</h1>
             <p>{courseInfo.course.description}</p>
             <Separator className="my-4"/>
-            <div className="flex justify-end"><AddVideoButton courseId={courseInfo.course._id} courseName={courseInfo.course.name}></AddVideoButton></div>
-            <h1 className="text-xl">Total Videos ({courseInfo.videos.length})</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-xl">Total Videos ({courseInfo.videos.length})</h1>
+                <div className="flex justify-end"><AddVideoButton courseId={courseInfo.course._id} courseName={courseInfo.course.name}></AddVideoButton></div>
+            </div>
             <Table>
                 <TableBody>
                     {courseInfo.videos.map(video=>(
