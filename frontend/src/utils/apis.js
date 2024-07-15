@@ -49,8 +49,8 @@ function getAllCourseVideos(courseID){
     //should return an array of video objects of the mentioned course if the user is registered to the course
 }
 
-function getCourseVideo(courseID, videoID){
-    return axios.get(`${apiRoute}/course/${courseID}/video/${videoID}`)
+function getCourseVideo(videoID){
+    return axios.get(`${apiRoute}/videos/get/${videoID}`)
     //should return a single video object of mentioned id if the user is registered to the course
 }
 
@@ -85,7 +85,12 @@ function getCourseInfo(courseID){
     return axios.get(`${apiRoute}/course/info/${courseID}`);
 }
 
+function postFeedback(courseID, data){
+    return axios.post(`${apiRoute}/feedback/new/${courseID}`, data);
+}
+
 export {
+    postFeedback,
     courseRegistration,
     deleteVideo,
     getAllCourse,

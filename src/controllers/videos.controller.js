@@ -8,6 +8,7 @@ import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
+import { User } from "../models/user.models.js"
 
 
 const uploadVideo = asyncHandler(async(req,res)=>{
@@ -83,18 +84,20 @@ const getVideo = asyncHandler(async (req, res, next) => {
     }
 
     const { id: video_id } = req.params;
+    console.log(video_id)
     if (!video_id || video_id.trim() === "") {
         throw new ApiError(404, "Video ID is required");
     }
 
     const video = await Video.findById(video_id);
+    console.log(video)
     if (!video) {
         throw new ApiError(404, "Video not found");
     }
 
-    const course_id = video.course_id;
-    const student_id = req.student._id;
-    const registration = await registration.findOne({ student_id, course_id });
+    const courseID = video.courseID;
+    const studentID = req.student._id;
+    const registration = await Register.findOne({ studentID, courseID });
     
     if (!registration) {
         throw new ApiError(403, "Student is not registered for this course");
@@ -110,10 +113,33 @@ const getVideo = asyncHandler(async (req, res, next) => {
     );
 });
 
+const deleteVideo = asyncHandler(async (req, res)=>{
+    if(!req.instructor){
+        throw new ApiError(401, "not authorized")
+    }
+    const video = await Video.findById(req.params.id);
+    if(!video){
+        throw new ApiError(404, 'video not found')
+    }
+    const course = await Course.findById(video.courseID);
+
+    if(!(course.instructorID == req.instructor._id)){
+        throw new ApiError(404, "not authorized")
+    }
+
+    const result = await Video.deleteOne({_id: video._id});
+
+    if (result.deletedCount === 1) {
+        console.log(`Successfully deleted video with id ${videoId}`);
+    } else {
+        console.log(`No video found with id ${videoId}`);
+    }
+
+    res.status(200).json(new ApiResponse(200, 'video delete succesfully'))
+})
 
 
 
 
 
-
-export { uploadVideo,getVideo }
+export { uploadVideo,getVideo, deleteVideo }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { uploadVideo, getVideo } from "../controllers/videos.controller.js";
+import { uploadVideo, getVideo, deleteVideo } from "../controllers/videos.controller.js";
 import { upload } from "../middlewares/multer.middlewares.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 const  router = Router()
@@ -10,11 +10,11 @@ router.route("/upload/:courseID").post(
     uploadVideo
 )
 
-router.route("/get/:id").post(
+router.route("/get/:id").get(
     verifyJWT,
     getVideo
 )
-router.route("/detele").post()
+router.route("/delete/:id").get(verifyJWT, deleteVideo)
     
 
 

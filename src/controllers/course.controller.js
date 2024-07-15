@@ -6,23 +6,35 @@ import {Course} from "../models/courses.models.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { User } from "../models/user.models.js";
 import { Video } from "../models/videos.models.js";
+import { Feedback } from "../models/feedback.models.js";
 
 const courseRegistration = asyncHandler(async(req, res) => {
     if (!req.student) {
         throw new ApiError(401, "Unauthorized student")
     }
-    const course = await Course.findById(req.body.course_ID)
+    console.log("studnet presen")
+    const course = await Course.findById(req.params.courseID)
     if (!course) {
         throw new ApiError(404, "Invalid course ID")
     }
+    console.log("course found")
     const register = await Register.create({
         courseID: course._id,
         studentID: req.student._id
     })
+    console.log("registred success")
     const createdRegister = await Register.findById(register._id)
     if (!createdRegister) {
         throw new ApiError(500, "Something went wrong in the server")
     }
+    const student = await User.findById(req.student._id);
+    if(!student){
+        res.status(500).json("something went wrong")
+    }
+    console.log("studnent obj found")
+    student.coursesApplied.push(req.params.courseID);
+    await student.save()
+    console.log('pushed success')
     return res.status(201).json(new ApiResponse(200, createdRegister, "Registration successful"))
 })
 
@@ -106,10 +118,13 @@ const courseInfo = asyncHandler(async (req, res)=>{
     if(!course){
         throw new ApiError(404, "course not found");
     }
-
+    const feedbacks = await Feedback.find({course: course._id}, {label: 1, text: 1});
+    if(!feedbacks){
+        throw new ApiError(500, "something went wrong");
+    }
     const videos = await Video.find({ courseID: course._id });
 
-    return res.status(200).json(new ApiResponse(200, {course, ...{videos}}, "Course Info fetching Succefully"))
+    return res.status(200).json(new ApiResponse(200, {course, ...{videos}, ...{feedbacks}}, "Course Info fetching Succefully"))
 
 
 

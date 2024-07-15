@@ -22,21 +22,4 @@ const feedbackSchema = new Schema({
     }
 }, {timestamps: true})
 
-// /feeback/:courseid
-/*
-step 1 verfity student
-step 2 verfiy if the student is registered to the course
-step 3 very the course id
-step 4 send request to django server
-setep 5 using hte feebacck text and rating form django create feedback 
-step 6 check if the feeback is created correctly
-step 7 send appropritate response
-*/
-
-
-/* /feedback/all/:courseid
-no verfy rerquired 
-verfy courseid 
-fetch all feedback and send it back inrespaonse
-
-*/
+export const Feedback = mongoose.model("Feeback", feedbackSchema);

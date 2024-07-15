@@ -92,7 +92,7 @@ export default function AddVideoButton({courseId, courseName}){
                 <DialogFooter>
                     <Button type="submit" >
                         {loading && <l-dot-stream size="45" color="white"></l-dot-stream>}
-						{!loading && "Create Course"}
+						{!loading && "Add video"}
                     </Button>
                 </DialogFooter>
             </form>

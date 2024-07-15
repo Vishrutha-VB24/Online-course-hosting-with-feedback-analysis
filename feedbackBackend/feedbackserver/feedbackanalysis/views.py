@@ -21,11 +21,8 @@ with open(os.path.join(BASE_DIR, 'data/model.pkl'), 'rb') as f:
 
 
 def predict_rating(feedback_text):
-    # Vectorize the input text
     feedback_vectorized = vectorizer.transform([feedback_text])
-    # Scale the vectorized text
     feedback_scaled = scaler.transform(feedback_vectorized)
-    # Predict the rating
     rating = model.predict(feedback_scaled)[0]
     return rating
 

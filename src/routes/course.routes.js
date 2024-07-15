@@ -5,7 +5,7 @@ import { upload } from "../middlewares/multer.middlewares.js"
 const router = Router()
 
   
-router.route("/register").post(verifyJWT,courseRegistration)
+router.route("/register/:courseID").get(verifyJWT,courseRegistration)
 router.route("/delete").post(verifyJWT, deleteCourse)
 router.route("/register").post(verifyJWT,courseRegistration)
 router.route("/create").post(

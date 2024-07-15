@@ -5,7 +5,9 @@ import Register from "./Register";
 import VideoPlayer from "./VideoPlayer";
 import Profile from "./Profile";
 import CourseInfo from "./CourseInfo";
+import Player from "@/components/Player";
 export {
+    Player,
     Course, 
     Home,
     Login,

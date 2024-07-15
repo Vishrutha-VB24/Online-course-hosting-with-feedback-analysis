@@ -26,8 +26,8 @@ function Header() {
                 (!loc.pathname.startsWith("/login") && !loc.pathname.startsWith("/register"))
                 && <AuthButton className="min-w-24 text-md hover:text-cyan-400"></AuthButton>
             }
+            <hr className="z-10 absolute top-14 left-4 w-[calc(100vw-2rem)]  border-zinc-500"/>
             </header>
-            <hr className="z-10 fixed top-14 left-4 w-[calc(100vw-2rem)]  border-zinc-500"/>
         </>
 
     );
