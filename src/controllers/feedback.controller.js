@@ -16,6 +16,7 @@ const newfeedback = asyncHandler(async (req, res) => {
     if(!registered){
         res.status(401).json(new ApiError(401, "Student is not registered to the course"));
     }
+        
     try {
         const response = await axios.post("http://127.0.0.1:8000/api/reviews/", {"review": feedback});
         const {predicted_rating: rating} = response.data
@@ -33,6 +34,8 @@ const newfeedback = asyncHandler(async (req, res) => {
             res.status(500).json("Something went wrong");
         }
         res.status(response.status).json(new ApiResponse(response.data));
+        console.log(response.data.predicted_rating)
+        
     } catch (error) {
         throw new ApiError(error.response ? error.response.status : 500, error.message);
     }
